@@ -2,109 +2,89 @@
 
 ## What We Built
 
-GridGuard AI is a predictive grid-maintenance and outage-risk platform that helps utility teams identify vulnerable equipment, understand the factors contributing to its risk, and coordinate preventive action.
+GridGuard AI is a power-grid decision-support platform designed to help utility teams identify equipment that may be at risk of failure before it contributes to a major outage.
 
-The platform combines simulated equipment telemetry, weather exposure, asset condition, historical incidents, and operational context using a transparent multi-factor risk scoring engine.
+The platform combines simulated grid asset sensor data, weather conditions, and historical incident information to calculate equipment risk, identify the main risk drivers, rank assets by grid impact, and help teams plan preventive maintenance and field crew actions.
 
-## How It Works
-
-1. Grid asset and simulated sensor data are stored in Cloud Firestore.
-2. GridGuard evaluates factors such as temperature, oil temperature, vibration, partial discharge, oil quality, load, historical incidents, and weather exposure.
-3. The risk engine generates an explainable score and classifies each asset as Stable, Elevated, or Critical.
-4. Predictions include supporting evidence, inspection priority, expected failure mode, and recommended action.
-5. Operators can inspect assets through dashboards and an interactive geographic risk map.
-6. Maintenance work orders can be created for assets requiring attention.
-7. Field supervisors can assign available crews to pending work orders.
-8. Maintenance engineers can progress assigned work through execution and completion.
-9. Operators can report and manage grid incidents.
-10. Firebase Authentication and Firestore Security Rules enforce role-based access.
-
-## Core Operational Flow
-
-Asset & Sensor Data
-→ Weather + Operational History
-→ Explainable Risk Engine
-→ Risk Classification & Prediction
-→ Dashboard / Risk Map
-→ Maintenance Recommendation
-→ Work Order
-→ Crew Assignment
-→ Maintenance Execution
-→ Incident & Grid Monitoring
-
-## Key Features
-
-- Explainable multi-factor equipment risk scoring
-- Stable, Elevated, and Critical risk classification
-- Interactive Leaflet/OpenStreetMap grid-risk visualization
-- Asset telemetry and prediction inspection
-- Predictive maintenance recommendations
-- Work-order lifecycle management
-- Crew assignment and operational coordination
-- Incident reporting and resolution tracking
-- Firebase Authentication
-- Firestore-backed operational persistence
-- Role-based authorization
-- Transparent simulated-data fallback for network or service-quota limitations
-
-## User Roles
-
-GridGuard AI separates responsibilities across five roles:
-
-- Utility Administrator (`admin`) — administrative access and asset/crew management.
-- Grid Operator (`operator`) — operational monitoring, telemetry workflows, work-order creation, and incident management.
-- Maintenance Engineer (`maintenance`) — executes assigned maintenance work and updates work status.
-- Field Supervisor (`field_supervisor`) — assigns available crews to pending work orders.
-- Reliability Engineer (`reliability`) — read-only monitoring and reliability analysis.
-
-## Technology
-
-The implementation uses HTML5, CSS3 and JavaScript ES modules with Vite. Leaflet and OpenStreetMap provide geographic visualization. Firebase Authentication provides user authentication, while Cloud Firestore stores operational data and Firestore Security Rules enforce authorization.
-
-IBM Bob was used during development to inspect the codebase, plan implementation work, assist with feature development, debugging, validation, and documentation.
-
-## Prototype Scope
-
-The current prototype uses simulated utility data rather than a live SCADA or IoT integration. The risk engine is an explainable deterministic weighted model designed for the hackathon prototype and should not be interpreted as a calibrated production failure-probability model.# Solution Overview
-
-## What We Built
-
-GridGuard AI is a predictive grid-maintenance and outage-risk platform that helps utility teams identify vulnerable equipment, understand the factors contributing to its risk, and coordinate preventive action.
-
-The platform combines simulated equipment telemetry, weather exposure, asset condition, historical incidents, and operational context using a transparent multi-factor risk scoring engine.
+Instead of only showing raw sensor readings, GridGuard AI converts them into clear operational decisions: **which asset is at risk, why it is risky, how important it is to the grid, and what action should be taken next.**
 
 ## How It Works
 
-1. Grid asset and simulated sensor data are stored in Cloud Firestore.
-2. GridGuard evaluates factors such as temperature, oil temperature, vibration, partial discharge, oil quality, load, historical incidents, and weather exposure.
-3. The risk engine generates an explainable score and classifies each asset as Stable, Elevated, or Critical.
-4. Predictions include supporting evidence, inspection priority, expected failure mode, and recommended action.
-5. Operators can inspect assets through dashboards and an interactive geographic risk map.
-6. Maintenance work orders can be created for assets requiring attention.
-7. Field supervisors can assign available crews to pending work orders.
-8. Maintenance engineers can progress assigned work through execution and completion.
-9. Operators can report and manage grid incidents.
-10. Firebase Authentication and Firestore Security Rules enforce role-based access.
+1. **Collect Grid Data** — GridGuard AI uses asset information, simulated sensor telemetry, weather conditions, and historical incident records.
 
-## Core Operational Flow
+2. **Analyze Equipment Health** — The explainable multi-factor risk engine evaluates indicators such as temperature, vibration, partial discharge, oil quality, moisture, electrical load, and environmental exposure where applicable.
+
+3. **Calculate Risk** — Each asset receives a 0–100 risk score and is classified into a Stable, Elevated, or Critical risk level.
+
+4. **Prioritize by Grid Impact** — Failure risk is combined with the operational importance of the asset so that teams can identify which equipment requires attention first.
+
+5. **Visualize Risk** — Assets and their risk levels are displayed through dashboards, prediction views, and an interactive geographic risk map.
+
+6. **Plan Preventive Maintenance** — Operators can convert identified risks into maintenance work orders.
+
+7. **Coordinate Field Crews** — Available crews can be assigned to maintenance work based on operational requirements.
+
+8. **Track Incidents** — Grid incidents can be reported and managed within the same platform, creating a connected workflow from prediction to action.
+
+## Architecture Diagram
+
+> See [`architecture.md`](architecture.md) for the detailed architecture.
 
 ```text
-Asset & Sensor Data
-        ↓
-Weather + Operational History
-        ↓
-Explainable Risk Engine
-        ↓
-Risk Classification & Prediction
-        ↓
-Dashboard / Risk Map
-        ↓
-Maintenance Recommendation
-        ↓
-Work Order
-        ↓
-Crew Assignment
-        ↓
-Maintenance Execution
-        ↓
-Incident & Grid Monitoring
+Asset Data + Sensor Telemetry + Weather + Historical Incidents
+                              │
+                              ▼
+              Explainable Risk Intelligence
+                              │
+                  Risk Score + Risk Drivers
+                              │
+                              ▼
+                   Grid Impact Analysis
+                              │
+                              ▼
+        Prioritized Assets / Outage-Risk Insights
+                              │
+             ┌────────────────┼────────────────┐
+             ▼                ▼                ▼
+         Risk Map        Maintenance       Incidents
+                              │
+                              ▼
+                       Crew Assignment
+                              │
+                              ▼
+                     Preventive Action
+
+Frontend: HTML5 + CSS3 + JavaScript + Vite
+Cloud: Firebase Authentication + Cloud Firestore
+Maps: Leaflet + OpenStreetMap
+Deployment: Firebase Hosting
+```
+
+## Key Design Decisions
+
+| Decision | Rationale |
+|---|---|
+| Explainable multi-factor risk scoring | Makes the reason behind each risk score visible instead of presenting an unexplained prediction. |
+| Combine failure risk with grid impact | A high-risk asset is not always the most operationally important asset, so prioritization considers both risk and consequence. |
+| Interactive geographic risk map | Helps operators quickly understand where Critical and Elevated assets are located. |
+| Role-based operational workflows | Different utility roles require different permissions for asset management, maintenance, crew assignment, and incident handling. |
+| Firebase Authentication and Cloud Firestore | Provides authentication, persistent cloud data, and security-rule-based access control within the hackathon prototype. |
+| Simulated correlated telemetry | Enables demonstration of realistic risk patterns without requiring access to private utility SCADA or IoT infrastructure. |
+| Demo fallback mode | Keeps the core application demonstrable if Firebase quota, connectivity, or service availability becomes an issue during judging. |
+
+## IBM Technologies Used
+
+- **IBM Bob:** IBM Bob was used throughout the development process to assist with understanding and reasoning across the codebase, planning and refining application workflows, debugging implementation issues, validating functionality, supporting terminal-based testing and iteration, and improving project documentation.
+
+The engineering decisions, application architecture, risk methodology, Firebase integration, workflows, testing, and final implementation were reviewed and controlled by the team.
+
+## Demo
+
+- **Live Application:** https://gridguard-ai-32b1b.web.app/
+- **Demo Video:** https://youtu.be/svjrF0pkQ4k
+- **Screenshots:** [`../demo/screenshots/`](../demo/screenshots/)
+- **Presentation:** [`../presentation/slides.pdf`](../presentation/slides.pdf)
+
+---
+
+**GridGuard AI — Predict. Prioritize. Prevent.**

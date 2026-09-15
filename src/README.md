@@ -1,33 +1,227 @@
 # GRIDGUARD AI
-Power Outage Prediction & Grid Equipment Failure Advisor — Firebase hackathon prototype.
 
-Existing multi-page UI, inline CSS, sidebar, cards, drawer and responsive layout are retained. Leaflet 1.9.4 + OpenStreetMap remain the maps. This project demonstrates utility operations with **simulated data and a transparent weighted risk model**, not a trained ML system or real utility telemetry.
+**Power Outage Prediction & Grid Equipment Failure Advisor**
 
-## Start
-Follow [FIREBASE_SETUP.md](FIREBASE_SETUP.md). Fill the isolated public placeholders in `js/firebase-config.js`, enable Email/Password Auth, deploy rules and seed Firestore. Run `npm install`, then `npm start`. No Firebase project is required for the documented emulator workflow.
+GridGuard AI is a predictive grid-maintenance and outage-risk platform designed to help utility teams identify vulnerable equipment, understand the factors contributing to risk, prioritize preventive maintenance, and coordinate field response.
 
-## Architecture and data flow
-- Existing HTML/CSS → extracted `js/pages/*` presentation modules.
-- `js/auth.js` → Firebase Authentication and private `users/{uid}` profiles.
-- `js/firestore.js` → region-scoped real-time subscriptions and transactional operational writes.
-- `js/view-model.js` → derived dashboard totals and compatibility projections shared by every page.
-- `scripts/demo-data.mjs` → correlated historical telemetry → `js/risk-engine.js` → consistent persisted assets/predictions.
-- `js/weather.js` → region coordinates → optional current weather or labeled seeded fallback.
-- `js/settings.js` → account preferences in Firestore; sidebar/region device state in localStorage.
-- `js/operations.js` → existing-style functional controls for work orders, crews, incidents.
-
-Firestore owns operational records; page renderers contain no regional datasets. Every subscription uses selected `gridguard-region`; stale callbacks are discarded on region changes. All seven required collections load before regional rendering, so cards do not mix old and new regions. Asset detail exposes latest telemetry; 25 readings per asset retain 72-hour history. Predictions expose evidence, heuristic probability, completeness confidence and a cumulative 72-hour inspection outlook.
+The hackathon prototype uses **simulated utility data and an explainable multi-factor weighted risk model**. It does not claim to use live utility telemetry or a production-calibrated machine-learning failure model.
 
 ## Features
-Email/password registration/login/logout, persistent auth, protected pages, region synchronization, search/type/risk/status filtering, asset drawers, map markers/layers, prediction inspectors, transactional assignment and release, demo incidents/resolution, account settings, loading/empty/error feedback. Available crew recommendations use regional availability, skill match and straight-line distance; no route ETA is invented.
 
-## Risk formula
-Model `weighted-demo-v1`: weighted mean of clamped 0–100 normalized features. Temperature (45–95°C) 12%; oil temperature (55–110°C) 18%; vibration (1–8 mm/s) 15%; partial discharge (10–500 pC) 15%; oil degradation (100 minus quality, 10–70) 12%; load (60–120%) 12%; historical incident count (0–4) 8%; weather exposure 8%. Exclude oil channels for non-transformers and renormalize applicable weights. Critical ≥75; Elevated ≥45; Stable otherwise. Inspection windows: 12/24/72 hours. Probability proxy = round(score × 0.85), **not calibrated likelihood**. Confidence = applicable input completeness, **not predictive accuracy**. Evidence lists raw values, normalized scores and weights.
+- Explainable 0–100 equipment risk scoring
+- Stable, Elevated, and Critical risk classification
+- Asset health and sensor telemetry monitoring
+- Equipment risk predictions and supporting evidence
+- Interactive Leaflet/OpenStreetMap risk visualization
+- Grid-impact-based asset prioritization
+- Predictive maintenance recommendations
+- Maintenance work-order lifecycle management
+- Crew planning and assignment
+- Incident reporting and resolution tracking
+- Firebase Authentication
+- Cloud Firestore operational persistence
+- Role-based authorization
+- Transparent simulated-data fallback for demo continuity
 
-Weather exposure: 45% hourly rainfall (0–20 mm), 25% wind (10–80 km/h), 20% temperature (30–48°C), 10% humidity (60–100%). These are illustrative hackathon assumptions, not utility-certified limits. Health = 100 − 0.65 × risk for seeded assets. No retraining or fake inference API exists. Private settings alter preferences, not shared model scores; model configuration changes require a controlled regeneration of persisted predictions.
+## User Roles
 
-## Security
-Anonymous access denied. Profiles are owner-only and cannot escalate roles. Authenticated demo operators share operational access; this is an explicit demo tenancy model, not a production multi-utility authorization design. Browser clients cannot mutate telemetry/risk records. Firestore rules and transactions validate matching crew/order links. Seed uses external ADC; never commit a service-account key. No Firebase Storage is provisioned because current workflows have no file uploads.
+GridGuard AI separates operational responsibilities across five roles:
 
-## Validation
-`npm test` tests data consistency, scoring, empty projections, weather fallback and recommendations. `npm run build` bundles every page. `npm run test:rules` exercises security with Firestore Emulator. `npm run test:e2e` runs the persisted operator journey and requested screen widths. See [docs/QA.md](docs/QA.md) for execution results and limitations, and [docs/ARCHITECTURE_AUDIT.md](docs/ARCHITECTURE_AUDIT.md) for the original inspection.
+- **Utility Administrator (`admin`)** — full administrative access, including asset and crew management.
+- **Grid Operator (`operator`)** — monitors grid operations, works with telemetry, creates maintenance work orders, and reports/manages incidents.
+- **Maintenance Engineer (`maintenance`)** — starts and completes assigned maintenance work and updates related crew status.
+- **Field Supervisor (`field_supervisor`)** — assigns available crews to pending maintenance work orders.
+- **Reliability Engineer (`reliability`)** — read-only access for monitoring and reliability analysis.
+
+## How GridGuard Works
+
+```text
+Asset & Sensor Data
+        ↓
+Weather + Historical Incidents
+        ↓
+Explainable Risk Engine
+        ↓
+Risk Score + Risk Classification
+        ↓
+Grid Impact Prioritization
+        ↓
+Dashboard / Risk Map / Predictions
+        ↓
+Maintenance Recommendation
+        ↓
+Work Order
+        ↓
+Crew Assignment
+        ↓
+Maintenance Execution
+        ↓
+Incident & Grid Monitoring
+```
+
+GridGuard evaluates equipment health indicators such as temperature, oil temperature, vibration, partial discharge, oil quality, load, historical incidents, and weather exposure where applicable.
+
+The risk engine produces an explainable score from **0–100** and classifies assets as:
+
+- **Critical:** score ≥ 75
+- **Elevated:** score ≥ 45 and < 75
+- **Stable:** score < 45
+
+The model is a transparent deterministic weighted model developed for the hackathon prototype. Its scores support prioritization and demonstration and should not be interpreted as calibrated production failure probabilities.
+
+## Technology Stack
+
+| Category | Technologies |
+|---|---|
+| **Frontend** | HTML5, CSS3, JavaScript ES Modules |
+| **Build Tool** | Vite |
+| **Cloud Backend** | Firebase |
+| **Database** | Cloud Firestore |
+| **Authentication** | Firebase Authentication |
+| **Authorization** | Firestore Security Rules + Role-Based Access Control |
+| **Maps** | Leaflet + OpenStreetMap |
+| **Risk Intelligence** | Explainable Multi-Factor Weighted Risk Engine |
+| **Testing** | Node.js Test Runner + Playwright |
+| **Deployment** | Firebase Hosting |
+| **AI Development Assistance** | IBM Bob |
+| **Version Control** | Git + GitHub |
+
+## Source Structure
+
+```text
+src/
+├── index.html
+├── login.html
+├── register.html
+├── dashboard.html
+├── assets.html
+├── risk-map.html
+├── predictions.html
+├── maintenance.html
+├── crews.html
+├── incidents.html
+├── settings.html
+├── privacy.html
+├── terms.html
+│
+├── js/
+│   ├── app.js
+│   ├── auth.js
+│   ├── firebase-config.js
+│   ├── firestore.js
+│   ├── operations.js
+│   ├── data-client.js
+│   ├── demo-session.js
+│   ├── risk-engine.js
+│   ├── sensors.js
+│   ├── weather.js
+│   ├── maps.js
+│   ├── map-picker.js
+│   ├── view-model.js
+│   └── pages/
+│
+├── scripts/
+│   ├── seed.mjs
+│   ├── demo-data.mjs
+│   └── cleanup-test-data.mjs
+│
+├── tests/
+├── docs/
+├── firestore.rules
+├── firestore.indexes.json
+├── firebase.json
+├── vite.config.js
+├── playwright.config.js
+├── package.json
+└── .env.example
+```
+
+## Run Locally
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Firebase
+
+Create a `.env.local` file using `.env.example` as the reference and provide the required Firebase web application configuration.
+
+Never commit `.env.local` or files containing private credentials.
+
+For detailed Firebase configuration, see [`FIREBASE_SETUP.md`](FIREBASE_SETUP.md).
+
+### 3. Start Development Server
+
+```bash
+npm run dev
+```
+
+Vite will display the local development URL in the terminal.
+
+## Testing
+
+Run the core automated test suite:
+
+```bash
+npm test
+```
+
+The test suite validates core risk scoring, asset projections, empty-data handling, weather fallback behavior, and crew pre-positioning logic.
+
+Additional validation commands are available for Firestore Security Rules and browser-based workflows.
+
+## Production Build
+
+```bash
+npm run build
+```
+
+The production-ready files are generated in the `dist/` directory.
+
+## Firebase Services
+
+GridGuard AI uses:
+
+- **Firebase Authentication** for user authentication
+- **Cloud Firestore** for grid assets, telemetry, predictions, maintenance, crews, incidents, and operational data
+- **Firestore Security Rules** for role-based authorization
+- **Firebase Hosting** for deployment
+
+## Simulated Data & Demo Fallback
+
+The hackathon prototype uses simulated grid assets, correlated sensor history, weather conditions, historical incidents, predictions, maintenance workflows, and crew information.
+
+A transparent demo fallback is included so the core application remains demonstrable if Firebase connectivity, quota, or service availability becomes temporarily unavailable.
+
+When fallback data is active, the application clearly identifies it as simulated demo data.
+
+## Prototype Scope
+
+GridGuard AI is currently a hackathon prototype.
+
+A production utility deployment would require:
+
+- Integration with live SCADA/IoT telemetry
+- Utility-specific historical failure datasets
+- Integration with production weather services
+- Calibration and validation of risk thresholds using real operational data
+- Integration with enterprise asset-management and workforce systems
+- Production-scale security, monitoring, and governance
+
+## IBM Bob
+
+IBM Bob was used throughout development to assist with codebase understanding, implementation planning, workflow refinement, debugging, validation, terminal-based testing and iteration, and project documentation.
+
+The team retained control over the project architecture, engineering decisions, risk methodology, Firebase integration, operational workflows, testing, and final implementation.
+
+## Live Demo
+
+**Application:** https://gridguard-ai-32b1b.web.app/
+
+**Demo Video:** https://youtu.be/svjrF0pkQ4k
+
+---
+
+**GridGuard AI — Predict. Prioritize. Prevent.**
