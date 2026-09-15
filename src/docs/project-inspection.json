@@ -1,0 +1,352 @@
+{
+  "predictions.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "riskFilter",
+      "typeFilter",
+      "${item.id}"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "index.html": {
+    "links": [
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "login.html"
+    ],
+    "controls": [
+      "menuBtn"
+    ],
+    "storageKeys": []
+  },
+  "assets.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "searchInput",
+      "typeFilter",
+      "riskFilter",
+      "drawerClose"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  " incidents.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "statusFilter",
+      "${incident.id}"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "crews.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "stateFilter"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "terms.html": {
+    "links": [
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "index.html",
+      "login.html",
+      "privacy.html",
+      "terms.html"
+    ],
+    "controls": [],
+    "storageKeys": []
+  },
+  "register.html": {
+    "links": [
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "index.html",
+      "login.html",
+      "privacy.html",
+      "terms.html"
+    ],
+    "controls": [
+      "name",
+      "email",
+      "organization",
+      "role",
+      "password",
+      "togglePassword",
+      "confirmPassword",
+      "privacyRegister"
+    ],
+    "storageKeys": [
+      "gridguard-registered-user"
+    ]
+  },
+  "login.html": {
+    "links": [
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "index.html",
+      "privacy.html",
+      "register.html"
+    ],
+    "controls": [
+      "email",
+      "password",
+      "togglePassword",
+      "privacyLogin",
+      "demoBtn"
+    ],
+    "storageKeys": [
+      "gridguard-demo"
+    ]
+  },
+  "dashboard.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "mapReset"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "risk-map.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "riskFilter",
+      "typeFilter",
+      "assetLayerBtn",
+      "weatherLayerBtn",
+      "${asset.id}"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "settings.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "displayName",
+      "operatorRole",
+      "defaultRegion",
+      "interfaceDensity",
+      "rememberRegion",
+      "autoSelectRisk",
+      "rememberSidebar",
+      "mapZoom",
+      "refreshInterval",
+      "weatherLayer",
+      "mapAnimation",
+      "markerPulse",
+      "criticalThreshold",
+      "elevatedThreshold",
+      "predictionHorizon",
+      "useWeather",
+      "useIncidents",
+      "showEvidence",
+      "alertCritical",
+      "alertWeather",
+      "alertMaintenance",
+      "alertCrew",
+      "alertStable",
+      "apiBaseUrl",
+      "requestTimeout",
+      "dataMode",
+      "resetSettings",
+      "discardBtn",
+      "saveBtn"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-settings",
+      "gridguard-sidebar-collapsed",
+      "gridguard-user"
+    ]
+  },
+  "maintenance.html": {
+    "links": [
+      "assets.html",
+      "crews.html",
+      "dashboard.html",
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "incidents.html",
+      "maintenance.html",
+      "predictions.html",
+      "risk-map.html",
+      "settings.html"
+    ],
+    "controls": [
+      "collapseBtn",
+      "mobileMenu",
+      "regionSelect",
+      "profileBtn",
+      "logoutBtn",
+      "statusFilter"
+    ],
+    "storageKeys": [
+      "gridguard-region",
+      "gridguard-registered-user",
+      "gridguard-user"
+    ]
+  },
+  "privacy.html": {
+    "links": [
+      "https://fonts.googleapis.com",
+      "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap",
+      "https://fonts.gstatic.com",
+      "index.html",
+      "javascript:history.back()",
+      "login.html",
+      "privacy.html",
+      "terms.html"
+    ],
+    "controls": [],
+    "storageKeys": []
+  }
+}

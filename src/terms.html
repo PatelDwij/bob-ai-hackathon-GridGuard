@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#eaf1ed" />
+
+  <title>Terms of Access — GridGuard AI</title>
+
+  <meta
+    name="description"
+    content="Terms of Access for GridGuard AI."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #eaf1ed;
+      --surface: #f7faf8;
+      --surface-soft: #edf4f1;
+
+      --ink: #10262b;
+      --text: #42585c;
+      --muted: #728487;
+
+      --green: #00765d;
+      --green-dark: #005946;
+      --green-soft: #dcece6;
+
+      --border: #d1dfda;
+      --header: 66px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      font-family: "DM Sans", sans-serif;
+
+      color: var(--ink);
+      background: var(--bg);
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1380px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      height: var(--header);
+
+      display: flex;
+      align-items: center;
+
+      background: rgba(234, 241, 237, 0.94);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      font-family: "Manrope", sans-serif;
+
+      font-size: 20px;
+      font-weight: 800;
+
+      letter-spacing: -0.7px;
+    }
+
+    .brand span {
+      color: var(--green);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .brand-mark svg {
+      width: 20px;
+    }
+
+    .signin {
+      min-height: 38px;
+
+      display: inline-flex;
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 0 13px;
+
+      border:
+        1px solid #b9cec6;
+
+      border-radius: 9px;
+
+      color: var(--green-dark);
+      background: #f5f9f7;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transition:
+        background .2s ease,
+        transform .2s ease;
+    }
+
+    .signin:hover {
+      background: var(--green-soft);
+
+      transform: translateX(-2px);
+    }
+
+    /* =========================
+       INTRO
+    ========================= */
+
+    .intro {
+      padding: 38px 0 24px;
+    }
+
+    .intro-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 40px;
+    }
+
+    .intro-copy {
+      max-width: 800px;
+    }
+
+    .eyebrow {
+      color: var(--green-dark);
+
+      font-size: 9px;
+      font-weight: 800;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin-top: 8px;
+
+      font-family: "Manrope", sans-serif;
+
+      font-size:
+        clamp(38px, 4vw, 50px);
+
+      line-height: 1.05;
+
+      letter-spacing: -2px;
+    }
+
+    .intro-copy p {
+      margin-top: 10px;
+
+      color: var(--text);
+
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .meta {
+      display: flex;
+
+      gap: 22px;
+
+      padding: 13px 16px;
+
+      border-radius: 11px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .meta span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .meta strong {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #294741;
+
+      font-size: 10px;
+    }
+
+    /* =========================
+       AGREEMENT
+    ========================= */
+
+    .agreement {
+      margin-top: 22px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 13px;
+
+      padding: 15px 18px;
+
+      border-radius: 12px;
+
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .agreement-icon {
+      width: 36px;
+      height: 36px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      background:
+        rgba(255, 255, 255, .08);
+
+      color: #a8dfcc;
+
+      font-weight: 800;
+    }
+
+    .agreement strong {
+      font-size: 10.5px;
+    }
+
+    .agreement p {
+      margin-top: 3px;
+
+      color: #bfd7cf;
+
+      font-size: 9.3px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      padding: 0 0 60px;
+    }
+
+    .terms {
+      overflow: hidden;
+
+      border-radius: 16px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .terms-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .term {
+      padding: 28px;
+
+      border-right:
+        1px solid var(--border);
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .term:nth-child(even) {
+      border-right: 0;
+    }
+
+    .term.full {
+      grid-column: 1 / -1;
+
+      border-right: 0;
+    }
+
+    .term-head {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 11px;
+    }
+
+    .number {
+      width: 32px;
+      height: 32px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 8px;
+
+      color: var(--green-dark);
+      background: var(--green-soft);
+
+      font-size: 8.5px;
+      font-weight: 800;
+    }
+
+    .term h2 {
+      font-family: "Manrope", sans-serif;
+
+      font-size: 18px;
+
+      line-height: 1.2;
+
+      letter-spacing: -0.5px;
+    }
+
+    .term-head p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .term-body {
+      margin: 13px 0 0 43px;
+    }
+
+    .term-body > p {
+      color: var(--text);
+
+      font-size: 10.7px;
+      line-height: 1.7;
+    }
+
+    .term-body > p + p {
+      margin-top: 9px;
+    }
+
+    /* =========================
+       LIST
+    ========================= */
+
+    .list {
+      display: grid;
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .list-item {
+      display: grid;
+
+      grid-template-columns:
+        17px 1fr;
+
+      gap: 7px;
+
+      color: var(--text);
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .list-item::before {
+      content: "✓";
+
+      width: 16px;
+      height: 16px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 5px;
+
+      color: var(--green-dark);
+      background: var(--green-soft);
+
+      font-size: 7px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       RESTRICTED
+    ========================= */
+
+    .restricted {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 8px;
+
+      margin-top: 14px;
+    }
+
+    .restricted div {
+      padding: 11px;
+
+      border-radius: 9px;
+
+      background: var(--surface-soft);
+
+      border:
+        1px solid var(--border);
+
+      color: var(--text);
+
+      font-size: 8.8px;
+      line-height: 1.45;
+    }
+
+    .restricted strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      color: #294741;
+
+      font-size: 9.3px;
+    }
+
+    /* =========================
+       AI
+    ========================= */
+
+    .ai-box {
+      margin-top: 15px;
+
+      padding: 16px;
+
+      border-radius: 11px;
+
+      color: white;
+      background: var(--green-dark);
+    }
+
+    .ai-box strong {
+      font-size: 10.5px;
+    }
+
+    .ai-box p {
+      margin-top: 6px;
+
+      color: #bfd7cf;
+
+      font-size: 9.4px;
+      line-height: 1.55;
+    }
+
+    .ai-points {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 7px;
+
+      margin-top: 12px;
+    }
+
+    .ai-points div {
+      padding: 9px;
+
+      border-radius: 7px;
+
+      background:
+        rgba(255, 255, 255, .06);
+
+      color: #d0e2dc;
+
+      font-size: 8.5px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       NOTICE
+    ========================= */
+
+    .notice {
+      margin-top: 12px;
+
+      display: flex;
+      align-items: flex-start;
+
+      gap: 9px;
+
+      padding: 11px 12px;
+
+      border-radius: 9px;
+
+      background: #e5efeb;
+
+      border:
+        1px solid #cfddd8;
+
+      color: #405b55;
+
+      font-size: 9.2px;
+      line-height: 1.5;
+    }
+
+    .notice-icon {
+      width: 22px;
+      height: 22px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 6px;
+
+      color: var(--green-dark);
+      background: #d4e6df;
+
+      font-weight: 800;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 20px 0;
+
+      border-top:
+        1px solid var(--border);
+
+      color: var(--muted);
+
+      font-size: 9px;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 16px;
+    }
+
+    .footer-links a:hover {
+      color: var(--green-dark);
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 950px) {
+
+      .intro-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta {
+        width: 100%;
+
+        justify-content: space-between;
+      }
+
+      .restricted,
+      .ai-points {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+    @media (max-width: 720px) {
+
+      .terms-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .term,
+      .term:nth-child(even),
+      .term.full {
+        grid-column: auto;
+
+        border-right: 0;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      :root {
+        --header: 60px;
+      }
+
+      .container {
+        width: calc(100% - 18px);
+      }
+
+      .brand {
+        font-size: 17px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .signin span {
+        display: none;
+      }
+
+      .intro {
+        padding: 28px 0 18px;
+      }
+
+      h1 {
+        font-size: 34px;
+
+        letter-spacing: -1.5px;
+      }
+
+      .intro-copy p {
+        font-size: 10.5px;
+      }
+
+      .meta {
+        gap: 10px;
+
+        padding: 11px;
+      }
+
+      .agreement {
+        align-items: flex-start;
+
+        padding: 13px;
+      }
+
+      .terms {
+        border-radius: 13px;
+      }
+
+      .term {
+        padding: 22px 15px;
+      }
+
+      .term h2 {
+        font-size: 17px;
+      }
+
+      .number {
+        width: 29px;
+        height: 29px;
+      }
+
+      .term-body {
+        margin-left: 38px;
+      }
+
+      .term-body > p {
+        font-size: 10.2px;
+      }
+
+      .restricted,
+      .ai-points {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+
+    @media (max-width: 400px) {
+
+      .term-body {
+        margin-left: 0;
+      }
+
+      .meta {
+        flex-direction: column;
+      }
+
+      .meta > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .meta strong {
+        margin-top: 0;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+
+    <div class="container">
+
+      <nav class="nav">
+
+        <a
+          href="index.html"
+          class="brand"
+        >
+
+          <div class="brand-mark">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M13 2 5 14h6l-1 8 9-13h-6z"/>
+            </svg>
+
+          </div>
+
+          GridGuard
+          <span>AI</span>
+
+        </a>
+
+
+        <a
+          href="login.html"
+          class="signin"
+        >
+          ←
+          <span>Return to Sign In</span>
+        </a>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+  <!-- INTRO -->
+
+  <section class="intro">
+
+    <div class="container">
+
+      <div class="intro-row">
+
+
+        <div class="intro-copy">
+
+          <div class="eyebrow">
+            Platform Agreement
+          </div>
+
+          <h1>
+            Terms of Access
+          </h1>
+
+          <p>
+            These terms define how authorized operators may
+            access and use GridGuard AI, including asset
+            monitoring, equipment-risk prediction and
+            maintenance decision-support features.
+          </p>
+
+        </div>
+
+
+        <div class="meta">
+
+          <div>
+            <span>Effective</span>
+            <strong>14 Sep 2026</strong>
+          </div>
+
+          <div>
+            <span>Version</span>
+            <strong>2.1</strong>
+          </div>
+
+          <div>
+            <span>Status</span>
+            <strong>Active</strong>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="agreement">
+
+        <div class="agreement-icon">
+          ✓
+        </div>
+
+        <div>
+
+          <strong>
+            Responsible platform use
+          </strong>
+
+          <p>
+            GridGuard is intended for authorized operational
+            users. Predictive results support decisions and
+            do not replace engineering judgement, inspection
+            or established safety procedures.
+          </p>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- TERMS -->
+
+  <main>
+
+    <div class="container">
+
+      <article class="terms">
+
+        <div class="terms-grid">
+
+
+          <!-- 01 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                01
+              </div>
+
+              <div>
+                <h2>Acceptance</h2>
+                <p>When these terms apply.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                These Terms of Access apply when you create
+                an account, sign in to or otherwise use
+                GridGuard AI.
+              </p>
+
+              <p>
+                If you use GridGuard on behalf of an
+                organization, you confirm that you are
+                authorized to use the platform within the
+                permissions assigned to you.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- 02 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                02
+              </div>
+
+              <div>
+                <h2>Authorized access</h2>
+                <p>Who may use the platform.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                GridGuard is intended for utility operators,
+                engineers, maintenance teams, administrators
+                and other authorized personnel.
+              </p>
+
+
+              <div class="list">
+
+                <div class="list-item">
+                  <div>
+                    Access only assets and information you
+                    are permitted to view.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Use only permissions assigned to your
+                    account.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Follow organizational operating and
+                    security procedures.
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 03 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                03
+              </div>
+
+              <div>
+                <h2>Operator accounts</h2>
+                <p>Your account responsibilities.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                You are responsible for maintaining accurate
+                account information and protecting your
+                GridGuard credentials.
+              </p>
+
+
+              <div class="list">
+
+                <div class="list-item">
+                  <div>
+                    Keep passwords and access credentials
+                    private.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Do not share your operator account with
+                    unauthorized users.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Report suspected unauthorized access.
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 04 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                04
+              </div>
+
+              <div>
+                <h2>Security</h2>
+                <p>Protecting platform access.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <div class="list">
+
+                <div class="list-item">
+                  <div>
+                    Protect devices used to access GridGuard.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Never expose passwords, tokens, API keys
+                    or private credentials.
+                  </div>
+                </div>
+
+                <div class="list-item">
+                  <div>
+                    Report security vulnerabilities responsibly.
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 05 -->
+
+          <section class="term full">
+
+            <div class="term-head">
+
+              <div class="number">
+                05
+              </div>
+
+              <div>
+                <h2>Acceptable use</h2>
+                <p>Actions that are not permitted.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                GridGuard must not be used in a way that
+                compromises security, disrupts services or
+                provides unauthorized access to operational
+                information.
+              </p>
+
+
+              <div class="restricted">
+
+                <div>
+                  <strong>Unauthorized access</strong>
+                  Accessing restricted accounts, assets or
+                  systems without permission.
+                </div>
+
+                <div>
+                  <strong>Security bypass</strong>
+                  Attempting to avoid authentication or
+                  authorization controls.
+                </div>
+
+                <div>
+                  <strong>System disruption</strong>
+                  Intentionally interfering with GridGuard
+                  or connected services.
+                </div>
+
+                <div>
+                  <strong>Credential misuse</strong>
+                  Stealing, exposing or misusing credentials.
+                </div>
+
+                <div>
+                  <strong>Malicious input</strong>
+                  Submitting malicious code or harmful data.
+                </div>
+
+                <div>
+                  <strong>Illegal use</strong>
+                  Using the platform for activity prohibited
+                  by applicable law.
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 06 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                06
+              </div>
+
+              <div>
+                <h2>Operational data</h2>
+                <p>Grid and equipment information.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                GridGuard may process asset identifiers,
+                equipment telemetry, maintenance history,
+                incident records and environmental information
+                supplied by authorized users or systems.
+              </p>
+
+              <p>
+                The organization providing the information
+                remains responsible for ensuring that it has
+                authority to process and provide that data.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- 07 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                07
+              </div>
+
+              <div>
+                <h2>Platform availability</h2>
+                <p>Maintenance and service changes.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                GridGuard may occasionally be unavailable due
+                to maintenance, technical issues,
+                infrastructure problems or development
+                changes.
+              </p>
+
+              <p>
+                Prototype or hackathon deployments should not
+                be treated as production-grade critical grid
+                control infrastructure.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- 08 -->
+
+          <section class="term full">
+
+            <div class="term-head">
+
+              <div class="number">
+                08
+              </div>
+
+              <div>
+                <h2>AI predictions and recommendations</h2>
+                <p>How predictive outputs should be used.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <div class="ai-box">
+
+                <strong>
+                  GridGuard is a decision-support platform.
+                </strong>
+
+                <p>
+                  GridGuard may generate asset-risk scores,
+                  equipment failure indicators, outage-risk
+                  estimates and maintenance recommendations.
+                  These results are predictions rather than
+                  guaranteed outcomes.
+                </p>
+
+
+                <div class="ai-points">
+
+                  <div>
+                    Verify critical recommendations before
+                    operational action.
+                  </div>
+
+                  <div>
+                    Engineering judgement remains required.
+                  </div>
+
+                  <div>
+                    Follow established utility safety
+                    procedures first.
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 09 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                09
+              </div>
+
+              <div>
+                <h2>Suspension and termination</h2>
+                <p>When access may be restricted.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                Access may be suspended or removed where
+                necessary to protect platform security,
+                respond to misuse, comply with legal
+                requirements or reflect an organization's
+                access decisions.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- 10 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                10
+              </div>
+
+              <div>
+                <h2>Operational limitations</h2>
+                <p>Important conditions.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                GridGuard does not guarantee that every sensor
+                input, prediction or recommendation will
+                always be complete, available or error-free.
+              </p>
+
+
+              <div class="notice">
+
+                <div class="notice-icon">
+                  !
+                </div>
+
+                <div>
+                  GridGuard should not be used as the sole
+                  mechanism for emergency shutdown,
+                  life-safety protection or critical switching
+                  decisions.
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- 11 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                11
+              </div>
+
+              <div>
+                <h2>Changes to these terms</h2>
+                <p>Future versions of the agreement.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                These terms may be updated when GridGuard
+                features, security practices or deployment
+                requirements change.
+              </p>
+
+              <p>
+                The version and effective date shown at the
+                top identify the current published terms.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- 12 -->
+
+          <section class="term">
+
+            <div class="term-head">
+
+              <div class="number">
+                12
+              </div>
+
+              <div>
+                <h2>Questions and support</h2>
+                <p>Help with access or permitted use.</p>
+              </div>
+
+            </div>
+
+
+            <div class="term-body">
+
+              <p>
+                Questions regarding these terms, account
+                permissions or permitted use of GridGuard
+                should be directed to the administrator
+                responsible for the deployment or the
+                GridGuard project team.
+              </p>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-row">
+
+        <span>
+          © 2026 GridGuard AI
+        </span>
+
+
+        <div class="footer-links">
+
+          <a href="privacy.html">
+            Privacy
+          </a>
+
+          <a href="terms.html">
+            Terms
+          </a>
+
+          <a href="login.html">
+            Sign In
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,2600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b4037" />
+
+  <title>Risk Map — GridGuard AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --page: #eaf1ed;
+      --surface: #f7faf8;
+      --surface-soft: #eef4f1;
+      --surface-muted: #e3ece8;
+
+      --ink: #10262c;
+      --text: #42575c;
+      --muted: #748487;
+
+      --green: #00765d;
+      --green-2: #0c8c6c;
+      --green-dark: #075044;
+      --green-deep: #0b4037;
+      --green-soft: #dcece6;
+
+      --amber: #b77b1f;
+      --amber-soft: #f2e8d4;
+
+      --red: #a64f4f;
+      --red-soft: #f2dddd;
+
+      --border: #d0ded9;
+
+      --sidebar: 232px;
+      --sidebar-small: 76px;
+      --topbar: 68px;
+
+      --shadow:
+        0 18px 46px rgba(15, 55, 44, .10);
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      overflow-x: hidden;
+      font-family: "DM Sans", sans-serif;
+      color: var(--ink);
+      background: var(--page);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    /* =========================================================
+       SIDEBAR
+    ========================================================= */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 1500;
+
+      width: var(--sidebar);
+
+      display: flex;
+      flex-direction: column;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0b493e 0%,
+          #09392f 100%
+        );
+
+      transition:
+        width .24s ease,
+        transform .24s ease;
+    }
+
+    .sidebar-top {
+      height: var(--topbar);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding: 0 16px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.09);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .brand-mark svg {
+      width: 20px;
+    }
+
+    .brand-name {
+      font-family: "Manrope", sans-serif;
+
+      font-size: 18px;
+      font-weight: 800;
+
+      letter-spacing: -.6px;
+
+      white-space: nowrap;
+    }
+
+    .brand-name span {
+      color: #8ddbc1;
+    }
+
+    .collapse-btn {
+      width: 31px;
+      height: 31px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 8px;
+
+      color: #c7ddd5;
+
+      background:
+        rgba(255,255,255,.05);
+    }
+
+    .collapse-btn svg {
+      width: 16px;
+    }
+
+    .sidebar-content {
+      min-height: 0;
+
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+
+      padding: 16px 11px 12px;
+    }
+
+    .menu-label {
+      padding: 0 10px 9px;
+
+      color: #789d90;
+
+      font-size: 8px;
+      font-weight: 800;
+
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .menu {
+      display: grid;
+      gap: 4px;
+    }
+
+    .menu-item {
+      min-height: 42px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 0 11px;
+
+      border-radius: 9px;
+
+      color: #b9d0c8;
+
+      font-size: 10.5px;
+      font-weight: 600;
+
+      transition: .18s ease;
+    }
+
+    .menu-item svg {
+      width: 17px;
+      height: 17px;
+
+      flex-shrink: 0;
+    }
+
+    .menu-item:hover {
+      color: white;
+
+      background:
+        rgba(255,255,255,.055);
+    }
+
+    .menu-item.active {
+      color: white;
+
+      background:
+        rgba(148,219,195,.12);
+
+      box-shadow:
+        inset 3px 0 0 #72c9aa;
+    }
+
+    .menu-badge {
+      margin-left: auto;
+
+      min-width: 21px;
+      height: 19px;
+
+      display: grid;
+      place-items: center;
+
+      padding: 0 5px;
+
+      border-radius: 99px;
+
+      color: #f1d4c7;
+
+      background:
+        rgba(183,80,70,.18);
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .sidebar-spacer {
+      flex: 1;
+    }
+
+    .system-card {
+      padding: 11px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      border:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .system-row {
+      display: flex;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      color: #8eafa3;
+
+      font-size: 8px;
+    }
+
+    .system-row + .system-row {
+      margin-top: 8px;
+    }
+
+    .system-value {
+      display: flex;
+      align-items: center;
+
+      gap: 5px;
+
+      color: #d7e7e1;
+
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: #77d2af;
+
+      box-shadow:
+        0 0 0 4px rgba(119,210,175,.08);
+    }
+
+    .sidebar.collapsed {
+      width: var(--sidebar-small);
+    }
+
+    .sidebar.collapsed .brand-name,
+    .sidebar.collapsed .menu-label,
+    .sidebar.collapsed .menu-item span,
+    .sidebar.collapsed .menu-badge,
+    .sidebar.collapsed .system-card {
+      display: none;
+    }
+
+    .sidebar.collapsed .sidebar-top {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      display: none;
+    }
+
+    .sidebar.collapsed .sidebar-content {
+      padding-inline: 10px;
+    }
+
+    .sidebar.collapsed .menu-item {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar.collapsed .menu-item.active {
+      box-shadow: none;
+    }
+
+    /* =========================================================
+       MAIN
+    ========================================================= */
+
+    .main-shell {
+      min-height: 100vh;
+
+      margin-left: var(--sidebar);
+
+      transition:
+        margin-left .24s ease;
+    }
+
+    .sidebar.collapsed ~ .main-shell {
+      margin-left: var(--sidebar-small);
+    }
+
+    /* =========================================================
+       TOPBAR
+    ========================================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+
+      z-index: 1200;
+
+      height: var(--topbar);
+
+      display: flex;
+      align-items: center;
+
+      background:
+        rgba(234,241,237,.95);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 14px;
+
+      padding: 0 18px;
+    }
+
+    .top-left,
+    .top-right {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+    }
+
+    .mobile-menu {
+      display: none;
+
+      width: 37px;
+      height: 37px;
+
+      place-items: center;
+
+      border-radius: 9px;
+
+      color: var(--green-dark);
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .region-wrap {
+      position: relative;
+    }
+
+    .region-select {
+      appearance: none;
+
+      min-width: 160px;
+      height: 37px;
+
+      padding: 0 34px 0 11px;
+
+      outline: none;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 9px;
+
+      color: #294842;
+      background: var(--surface);
+
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .region-arrow {
+      position: absolute;
+
+      top: 50%;
+      right: 12px;
+
+      width: 7px;
+      height: 7px;
+
+      transform:
+        translateY(-70%)
+        rotate(45deg);
+
+      border-right:
+        1.5px solid #70817e;
+
+      border-bottom:
+        1.5px solid #70817e;
+
+      pointer-events: none;
+    }
+
+    .stream,
+    .weather-chip {
+      height: 37px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      padding: 0 11px;
+
+      border-radius: 9px;
+
+      color: #506664;
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 8.8px;
+    }
+
+    .profile {
+      position: relative;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 4px;
+
+      border-radius: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      color: white;
+      background: var(--green-dark);
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .profile-copy {
+      padding-right: 4px;
+
+      text-align: left;
+    }
+
+    .profile-copy strong {
+      display: block;
+
+      color: #28433f;
+
+      font-size: 9px;
+    }
+
+    .profile-copy span {
+      display: block;
+
+      margin-top: 1px;
+
+      color: var(--muted);
+
+      font-size: 7.5px;
+    }
+
+    .profile-menu {
+      position: absolute;
+
+      top: 46px;
+      right: 0;
+
+      width: 150px;
+
+      display: none;
+
+      padding: 6px;
+
+      border-radius: 10px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow: var(--shadow);
+    }
+
+    .profile-menu.open {
+      display: block;
+    }
+
+    .profile-menu button {
+      width: 100%;
+
+      padding: 9px;
+
+      border-radius: 7px;
+
+      color: var(--text);
+
+      font-size: 9px;
+
+      text-align: left;
+    }
+
+    .profile-menu button:hover {
+      background: var(--surface-soft);
+    }
+
+    /* =========================================================
+       CONTENT
+    ========================================================= */
+
+    .content {
+      padding: 18px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 18px;
+
+      margin-bottom: 14px;
+    }
+
+    .page-head h1 {
+      font-family: "Manrope", sans-serif;
+
+      font-size:
+        clamp(26px,2.5vw,34px);
+
+      line-height: 1.08;
+
+      letter-spacing: -1.4px;
+    }
+
+    .page-head p {
+      margin-top: 5px;
+
+      color: var(--text);
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .live-map-status {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      color: var(--green);
+
+      font-size: 8.5px;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       SUMMARY
+    ========================================================= */
+
+    .summary-row {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+      gap: 9px;
+
+      margin-bottom: 10px;
+    }
+
+    .summary-card {
+      padding: 12px 13px;
+
+      border-radius: 11px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .summary-card span {
+      color: var(--muted);
+
+      font-size: 7.7px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+    }
+
+    .summary-card strong {
+      display: block;
+
+      margin-top: 5px;
+
+      font-family: "Manrope", sans-serif;
+
+      font-size: 21px;
+
+      letter-spacing: -.8px;
+    }
+
+    .summary-card small {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #6e827d;
+
+      font-size: 7.3px;
+    }
+
+    /* =========================================================
+       MAP TOOLBAR
+    ========================================================= */
+
+    .map-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 9px;
+
+      padding: 8px;
+
+      border-radius: 10px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+    }
+
+    .filter-select {
+      height: 34px;
+
+      padding: 0 10px;
+
+      outline: none;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 8px;
+
+      color: #415a56;
+
+      background:
+        var(--surface-soft);
+
+      font-size: 8.5px;
+      font-weight: 600;
+    }
+
+    .map-actions {
+      display: flex;
+
+      gap: 7px;
+    }
+
+    .map-btn {
+      min-height: 34px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0 11px;
+
+      border-radius: 8px;
+
+      color: var(--green-dark);
+
+      background:
+        var(--surface-soft);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 8.3px;
+      font-weight: 700;
+
+      transition:
+        .16s ease;
+    }
+
+    .map-btn.active {
+      color: white;
+
+      background:
+        var(--green-dark);
+
+      border-color:
+        var(--green-dark);
+    }
+
+    /* =========================================================
+       MAP LAYOUT
+    ========================================================= */
+
+    .map-layout {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        310px;
+
+      min-height:
+        calc(100vh - 258px);
+
+      overflow: hidden;
+
+      border-radius: 13px;
+
+      background:
+        var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        0 12px 34px rgba(19,53,43,.05);
+    }
+
+    .map-area {
+      position: relative;
+
+      min-height: 610px;
+
+      border-right:
+        1px solid var(--border);
+
+      background:
+        #dfe9e4;
+    }
+
+    #map {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* =========================================================
+       LEGEND
+    ========================================================= */
+
+    .map-legend {
+      position: absolute;
+
+      left: 12px;
+      bottom: 12px;
+
+      z-index: 700;
+
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 8px 10px;
+
+      border-radius: 9px;
+
+      background:
+        rgba(247,250,248,.95);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        0 8px 24px rgba(28,65,54,.10);
+
+      color:
+        var(--muted);
+
+      font-size: 7.5px;
+
+      backdrop-filter:
+        blur(10px);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+
+      gap: 5px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+    }
+
+    /* =========================================================
+       REGION INFO FLOAT
+    ========================================================= */
+
+    .map-region-card {
+      position: absolute;
+
+      top: 12px;
+      left: 12px;
+
+      z-index: 700;
+
+      width: 190px;
+
+      padding: 11px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(247,250,248,.96);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        0 8px 24px rgba(28,65,54,.08);
+
+      backdrop-filter:
+        blur(10px);
+    }
+
+    .map-region-card small {
+      color: var(--green);
+
+      font-size: 6.8px;
+      font-weight: 800;
+
+      letter-spacing: .8px;
+
+      text-transform: uppercase;
+    }
+
+    .map-region-card strong {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #27463f;
+
+      font-size: 10px;
+    }
+
+    .map-region-card p {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 7.5px;
+
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       RIGHT PANEL
+    ========================================================= */
+
+    .risk-panel {
+      display: flex;
+      flex-direction: column;
+
+      min-width: 0;
+
+      background:
+        #f9fbfa;
+    }
+
+    .risk-panel-head {
+      padding: 14px;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .risk-panel-head small {
+      color: var(--green);
+
+      font-size: 7.2px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: .9px;
+    }
+
+    .risk-panel-head h2 {
+      margin-top: 4px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: -.5px;
+    }
+
+    .risk-panel-head p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 7.8px;
+
+      line-height: 1.45;
+    }
+
+    .selected-empty {
+      min-height: 165px;
+
+      display: grid;
+      place-items: center;
+
+      padding: 24px;
+
+      text-align: center;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .selected-empty strong {
+      font-size: 10px;
+    }
+
+    .selected-empty p {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 7.8px;
+
+      line-height: 1.5;
+    }
+
+    .asset-detail {
+      display: none;
+
+      padding: 14px;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .asset-detail.show {
+      display: block;
+    }
+
+    .asset-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding-bottom: 12px;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .asset-type {
+      color: var(--muted);
+
+      font-size: 6.8px;
+
+      text-transform: uppercase;
+
+      letter-spacing: .7px;
+    }
+
+    .asset-top h3 {
+      margin-top: 3px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 18px;
+    }
+
+    .asset-location {
+      margin-top: 3px;
+
+      color: var(--text);
+
+      font-size: 8px;
+    }
+
+    .risk-score {
+      width: 47px;
+      height: 47px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .risk-score.critical {
+      color: #91453f;
+
+      background:
+        var(--red-soft);
+    }
+
+    .risk-score.elevated {
+      color: #89611f;
+
+      background:
+        var(--amber-soft);
+    }
+
+    .risk-score.stable {
+      color: #1e6a56;
+
+      background:
+        var(--green-soft);
+    }
+
+    .detail-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 7px;
+
+      margin-top: 11px;
+    }
+
+    .detail-box {
+      padding: 9px;
+
+      border-radius: 8px;
+
+      background:
+        var(--surface-soft);
+    }
+
+    .detail-box span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 6.7px;
+    }
+
+    .detail-box strong {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #2f4b46;
+
+      font-size: 8.4px;
+    }
+
+    .risk-reason {
+      margin-top: 10px;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      color: #765727;
+
+      background:
+        var(--amber-soft);
+
+      font-size: 7.7px;
+
+      line-height: 1.5;
+    }
+
+    .recommendation {
+      margin-top: 7px;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      color: #315d53;
+
+      background:
+        var(--green-soft);
+
+      font-size: 7.7px;
+
+      line-height: 1.5;
+    }
+
+    .panel-buttons {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 7px;
+
+      margin-top: 10px;
+    }
+
+    .panel-buttons a {
+      min-height: 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 8px;
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .primary {
+      color: white;
+      background: var(--green);
+    }
+
+    .secondary {
+      color: var(--green-dark);
+      background: var(--surface-soft);
+
+      border:
+        1px solid var(--border);
+    }
+
+    /* =========================================================
+       ASSET LIST
+    ========================================================= */
+
+    .asset-list-title {
+      padding:
+        12px 14px 7px;
+
+      color: var(--muted);
+
+      font-size: 7px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: .8px;
+    }
+
+    .asset-list {
+      flex: 1;
+
+      max-height: 295px;
+
+      overflow-y: auto;
+
+      padding: 0 8px 9px;
+    }
+
+    .asset-list-item {
+      width: 100%;
+
+      display: grid;
+
+      grid-template-columns:
+        auto minmax(0,1fr) auto;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 9px;
+
+      border-radius: 8px;
+
+      text-align: left;
+
+      transition:
+        background .15s ease;
+    }
+
+    .asset-list-item:hover,
+    .asset-list-item.active {
+      background:
+        var(--surface-soft);
+    }
+
+    .asset-risk-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+    }
+
+    .asset-list-copy strong {
+      display: block;
+
+      color: #2b4842;
+
+      font-size: 8.5px;
+    }
+
+    .asset-list-copy span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 7px;
+    }
+
+    .asset-list-score {
+      color: #44615b;
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .empty-filter {
+      padding: 24px 10px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+
+      text-align: center;
+    }
+
+    /* =========================================================
+       LEAFLET CUSTOMIZATION
+    ========================================================= */
+
+    .leaflet-container {
+      font-family:
+        "DM Sans",
+        sans-serif;
+
+      background:
+        #dfe9e4;
+    }
+
+    .leaflet-control-zoom {
+      border: 0 !important;
+
+      box-shadow:
+        0 7px 20px rgba(23,58,48,.16) !important;
+    }
+
+    .leaflet-control-zoom a {
+      color: var(--green-dark) !important;
+
+      background:
+        rgba(247,250,248,.97) !important;
+
+      border-bottom-color:
+        var(--border) !important;
+    }
+
+    .leaflet-control-attribution {
+      font-size: 6px !important;
+
+      background:
+        rgba(247,250,248,.86) !important;
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 10px;
+
+      box-shadow:
+        0 12px 30px rgba(18,53,43,.15);
+    }
+
+    .leaflet-popup-content {
+      margin: 11px 13px;
+
+      min-width: 165px;
+
+      font-family:
+        "DM Sans",
+        sans-serif;
+    }
+
+    .popup-title {
+      color: var(--ink);
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .popup-location {
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+    }
+
+    .popup-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-top: 6px;
+
+      font-size: 7.7px;
+    }
+
+    .popup-row span {
+      color: var(--muted);
+    }
+
+    .popup-row strong {
+      color: var(--text);
+    }
+
+    .asset-marker-wrap {
+      background: transparent;
+      border: 0;
+    }
+
+    .asset-marker {
+      position: relative;
+
+      width: 32px;
+      height: 32px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      color: white;
+
+      border:
+        3px solid rgba(255,255,255,.96);
+
+      box-shadow:
+        0 7px 18px rgba(28,57,48,.25);
+
+      font-size: 6.8px;
+      font-weight: 800;
+
+      letter-spacing: -.2px;
+    }
+
+    .asset-marker.critical {
+      background:
+        #ad4d49;
+    }
+
+    .asset-marker.elevated {
+      background:
+        #bb7e26;
+    }
+
+    .asset-marker.stable {
+      background:
+        #137c62;
+    }
+
+    .asset-marker.critical::after {
+      content: "";
+
+      position: absolute;
+
+      inset: -8px;
+
+      border-radius: 50%;
+
+      border:
+        2px solid rgba(173,77,73,.38);
+
+      animation:
+        markerPulse 1.8s infinite;
+    }
+
+    @keyframes markerPulse {
+      0% {
+        transform:
+          scale(.75);
+
+        opacity: .75;
+      }
+
+      100% {
+        transform:
+          scale(1.5);
+
+        opacity: 0;
+      }
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 1400;
+
+      display: none;
+
+      background:
+        rgba(7,30,25,.35);
+    }
+
+    .mobile-overlay.open {
+      display: block;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1150px) {
+
+      .map-layout {
+        grid-template-columns:
+          minmax(0,1fr)
+          270px;
+      }
+
+      .summary-row {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .sidebar {
+        width: var(--sidebar-small);
+      }
+
+      .sidebar .brand-name,
+      .sidebar .menu-label,
+      .sidebar .menu-item span,
+      .sidebar .menu-badge,
+      .sidebar .system-card,
+      .sidebar .collapse-btn {
+        display: none;
+      }
+
+      .sidebar .sidebar-top {
+        justify-content: center;
+        padding: 0;
+      }
+
+      .sidebar .menu-item {
+        justify-content: center;
+        padding: 0;
+      }
+
+      .sidebar .menu-item.active {
+        box-shadow: none;
+      }
+
+      .main-shell,
+      .sidebar.collapsed ~ .main-shell {
+        margin-left:
+          var(--sidebar-small);
+      }
+
+      .map-layout {
+        grid-template-columns:
+          1fr;
+      }
+
+      .map-area {
+        min-height: 560px;
+
+        border-right: 0;
+
+        border-bottom:
+          1px solid var(--border);
+      }
+
+      .asset-list {
+        max-height: 210px;
+      }
+
+    }
+
+    @media (max-width: 720px) {
+
+      .sidebar {
+        width: var(--sidebar);
+
+        transform:
+          translateX(-100%);
+      }
+
+      .sidebar.mobile-open {
+        transform:
+          translateX(0);
+      }
+
+      .sidebar .brand-name,
+      .sidebar .menu-label,
+      .sidebar .menu-item span,
+      .sidebar .menu-badge,
+      .sidebar .system-card {
+        display: initial;
+      }
+
+      .sidebar .sidebar-top {
+        justify-content: space-between;
+
+        padding: 0 16px;
+      }
+
+      .sidebar .menu-item {
+        justify-content:
+          flex-start;
+
+        padding:
+          0 11px;
+      }
+
+      .sidebar .menu-item.active {
+        box-shadow:
+          inset 3px 0 0 #72c9aa;
+      }
+
+      .main-shell,
+      .sidebar.collapsed ~ .main-shell {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: grid;
+      }
+
+      .stream {
+        display: none;
+      }
+
+      .profile-copy {
+        display: none;
+      }
+
+      .content {
+        padding:
+          16px 10px 24px;
+      }
+
+      .page-head {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 5px;
+      }
+
+      .map-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .filter-group {
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+
+      .map-actions {
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .map-area {
+        min-height: 520px;
+      }
+
+    }
+
+    @media (max-width: 520px) {
+
+      .topbar-inner {
+        padding:
+          0 9px;
+      }
+
+      .weather-chip {
+        display: none;
+      }
+
+      .region-select {
+        min-width: 135px;
+      }
+
+      .content {
+        padding-inline:
+          8px;
+      }
+
+      .summary-row {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 7px;
+      }
+
+      .summary-card {
+        padding: 11px;
+      }
+
+      .summary-card strong {
+        font-size: 19px;
+      }
+
+      .filter-group {
+        grid-template-columns:
+          1fr;
+      }
+
+      .map-area {
+        min-height: 480px;
+      }
+
+      .map-legend {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+
+        justify-content: center;
+      }
+
+      .map-region-card {
+        top: 8px;
+        left: 8px;
+
+        width: 165px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
+  <aside
+    class="sidebar"
+    id="sidebar"
+  >
+
+    <div class="sidebar-top">
+
+      <a
+        href="dashboard.html"
+        class="brand"
+      >
+
+        <div class="brand-mark">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M13 2 5 14h6l-1 8 9-13h-6z"/>
+          </svg>
+
+        </div>
+
+        <div class="brand-name">
+          GridGuard <span>AI</span>
+        </div>
+
+      </a>
+
+
+      <button
+        class="collapse-btn"
+        id="collapseBtn"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+
+      </button>
+
+    </div>
+
+
+    <div class="sidebar-content">
+
+      <div class="menu-label">
+        Operations
+      </div>
+
+
+      <nav class="menu">
+
+        <a
+          href="dashboard.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+
+          <span>Overview</span>
+        </a>
+
+
+        <a
+          href="assets.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 3v18"/>
+            <path d="M5 7h14"/>
+          </svg>
+
+          <span>Assets</span>
+        </a>
+
+
+        <a
+          href="risk-map.html"
+          class="menu-item active"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="m3 6 5-2 8 2 5-2v14l-5 2-8-2-5 2z"/>
+            <path d="M8 4v14"/>
+            <path d="M16 6v14"/>
+          </svg>
+
+          <span>Risk Map</span>
+
+          <div
+            class="menu-badge"
+            id="riskMenuBadge"
+          >
+            7
+          </div>
+        </a>
+
+
+        <a
+          href="predictions.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M4 18V9"/>
+            <path d="M10 18V5"/>
+            <path d="M16 18v-7"/>
+            <path d="M22 18H2"/>
+          </svg>
+
+          <span>Predictions</span>
+        </a>
+
+
+        <a
+          href="maintenance.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="m14.7 6.3 3-3a4 4 0 0 1-5.2 5.2l-6.7 6.7a2 2 0 1 0 2.8 2.8l6.7-6.7"/>
+          </svg>
+
+          <span>Maintenance</span>
+        </a>
+
+
+        <a
+          href="crews.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <circle cx="9" cy="8" r="3"/>
+            <path d="M4 21v-2a5 5 0 0 1 10 0v2"/>
+            <circle cx="17" cy="9" r="2"/>
+          </svg>
+
+          <span>Crews</span>
+        </a>
+
+
+        <a
+          href="incidents.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 3 2.5 20h19z"/>
+            <path d="M12 9v4"/>
+            <path d="M12 17h.01"/>
+          </svg>
+
+          <span>Incidents</span>
+
+          <div class="menu-badge">
+            3
+          </div>
+        </a>
+
+      </nav>
+
+
+      <div class="sidebar-spacer"></div>
+
+
+      <div class="menu-label">
+        System
+      </div>
+
+
+      <nav class="menu">
+
+        <a
+          href="settings.html"
+          class="menu-item"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <circle cx="12" cy="12" r="3"/>
+            <circle cx="12" cy="12" r="8"/>
+          </svg>
+
+          <span>Settings</span>
+        </a>
+
+      </nav>
+
+
+      <div class="system-card">
+
+        <div class="system-row">
+          <span>Map source</span>
+
+          <span class="system-value">
+            <i class="live-dot"></i>
+            OSM
+          </span>
+        </div>
+
+
+        <div class="system-row">
+          <span>Sensor sync</span>
+
+          <span class="system-value">
+            Firestore
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay"
+  ></div>
+
+
+  <!-- MAIN -->
+
+  <div class="main-shell">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-inner">
+
+
+        <div class="top-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+          >
+            ☰
+          </button>
+
+
+          <div class="region-wrap">
+
+            <select
+              id="regionSelect"
+              class="region-select"
+            >
+              <option>Ahmedabad East</option>
+              <option>Ahmedabad West</option>
+              <option>Gandhinagar</option>
+              <option>Vadodara</option>
+            </select>
+
+            <span class="region-arrow"></span>
+
+          </div>
+
+
+          <div class="stream">
+
+            <i class="live-dot"></i>
+
+            <span>
+              <strong id="streamCount">
+                248
+              </strong>
+              assets streaming
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="top-right">
+
+          <div
+            class="weather-chip"
+            id="weatherChip"
+          >
+            Heavy rain · 29°C
+          </div>
+
+
+          <div class="profile">
+
+            <button
+              class="profile-btn"
+              id="profileBtn"
+            >
+
+              <div
+                class="avatar"
+                id="avatar"
+              >
+                DO
+              </div>
+
+
+              <div class="profile-copy">
+
+                <strong id="operatorName">
+                  Demo Operator
+                </strong>
+
+                <span>
+                  Grid Operations
+                </span>
+
+              </div>
+
+            </button>
+
+
+            <div
+              class="profile-menu"
+              id="profileMenu"
+            >
+              <button id="logoutBtn">
+                Sign out
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+
+      <section class="page-head">
+
+        <div>
+
+          <h1>
+            Live Grid Risk Map
+          </h1>
+
+          <p id="pageSubtitle">
+            Geographic asset health and predicted outage exposure across Ahmedabad East.
+          </p>
+
+        </div>
+
+
+        <div class="live-map-status">
+          <i class="live-dot"></i>
+          Live monitoring
+        </div>
+
+      </section>
+
+
+      <!-- SUMMARY -->
+
+      <section class="summary-row">
+
+        <article class="summary-card">
+          <span>Mapped Assets</span>
+
+          <strong id="mappedAssets">
+            248
+          </strong>
+
+          <small>
+            Current region
+          </small>
+        </article>
+
+
+        <article class="summary-card">
+          <span>Critical Assets</span>
+
+          <strong id="criticalAssets">
+            7
+          </strong>
+
+          <small>
+            Immediate attention
+          </small>
+        </article>
+
+
+        <article class="summary-card">
+          <span>Elevated Risk</span>
+
+          <strong id="elevatedAssets">
+            11
+          </strong>
+
+          <small>
+            Under observation
+          </small>
+        </article>
+
+
+        <article class="summary-card">
+          <span>Outage Exposure</span>
+
+          <strong id="outageExposure">
+            12.4 MW
+          </strong>
+
+          <small>
+            Predicted grid impact
+          </small>
+        </article>
+
+      </section>
+
+
+      <!-- TOOLBAR -->
+
+      <section class="map-toolbar">
+
+        <div class="filter-group">
+
+          <select
+            class="filter-select"
+            id="riskFilter"
+          >
+            <option value="All">
+              All risk levels
+            </option>
+
+            <option value="Critical">
+              Critical only
+            </option>
+
+            <option value="Elevated">
+              Elevated only
+            </option>
+
+            <option value="Stable">
+              Stable only
+            </option>
+          </select>
+
+
+          <select
+            class="filter-select"
+            id="typeFilter"
+          >
+            <option value="All">
+              All equipment
+            </option>
+
+            <option value="Transformer">
+              Transformers
+            </option>
+
+            <option value="Substation">
+              Substations
+            </option>
+
+            <option value="Circuit Breaker">
+              Circuit Breakers
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="map-actions">
+
+          <button
+            class="map-btn active"
+            id="assetLayerBtn"
+          >
+            Asset Risk
+          </button>
+
+          <button
+            class="map-btn active"
+            id="weatherLayerBtn"
+          >
+            Weather Exposure
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- MAP WORKSPACE -->
+
+      <section class="map-layout">
+
+
+        <div class="map-area">
+
+          <div id="map"></div>
+
+
+          <div class="map-region-card">
+
+            <small>
+              Highest Risk Zone
+            </small>
+
+            <strong id="highestRiskZone">
+              Naroda – Odhav
+            </strong>
+
+            <p id="regionRiskText">
+              Heavy rainfall is increasing equipment exposure in the eastern corridor.
+            </p>
+
+          </div>
+
+
+          <div class="map-legend">
+
+            <div class="legend-item">
+              <span
+                class="legend-dot"
+                style="background:#137c62"
+              ></span>
+              Stable
+            </div>
+
+            <div class="legend-item">
+              <span
+                class="legend-dot"
+                style="background:#bb7e26"
+              ></span>
+              Elevated
+            </div>
+
+            <div class="legend-item">
+              <span
+                class="legend-dot"
+                style="background:#ad4d49"
+              ></span>
+              Critical
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- RIGHT PANEL -->
+
+        <aside class="risk-panel">
+
+          <div class="risk-panel-head">
+
+            <small id="panelRegion">
+              Ahmedabad East
+            </small>
+
+            <h2>
+              Asset Risk Inspector
+            </h2>
+
+            <p>
+              Select an equipment marker to inspect predicted failure risk and recommended action.
+            </p>
+
+          </div>
+
+
+          <div
+            class="selected-empty"
+            id="selectedEmpty"
+          >
+
+            <div>
+
+              <strong>
+                Select an asset
+              </strong>
+
+              <p>
+                Click any coloured marker on the map or choose an asset below.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="asset-detail"
+            id="assetDetail"
+          >
+
+            <div class="asset-top">
+
+              <div>
+
+                <div
+                  class="asset-type"
+                  id="detailType"
+                >
+                  Transformer
+                </div>
+
+                <h3 id="detailId">
+                  TR-104
+                </h3>
+
+                <div
+                  class="asset-location"
+                  id="detailLocation"
+                >
+                  Naroda · Ahmedabad East
+                </div>
+
+              </div>
+
+
+              <div
+                class="risk-score critical"
+                id="detailScore"
+              >
+                92
+              </div>
+
+            </div>
+
+
+            <div class="detail-grid">
+
+              <div class="detail-box">
+                <span>Risk level</span>
+
+                <strong id="detailRisk">
+                  Critical
+                </strong>
+              </div>
+
+
+              <div class="detail-box">
+                <span>Failure probability</span>
+
+                <strong id="detailProbability">
+                  78%
+                </strong>
+              </div>
+
+
+              <div class="detail-box">
+                <span>Grid impact</span>
+
+                <strong id="detailImpact">
+                  High
+                </strong>
+              </div>
+
+
+              <div class="detail-box">
+                <span>Health</span>
+
+                <strong id="detailHealth">
+                  58%
+                </strong>
+              </div>
+
+
+              <div class="detail-box">
+                <span>Primary signal</span>
+
+                <strong id="detailSignal">
+                  Oil temperature
+                </strong>
+              </div>
+
+
+              <div class="detail-box">
+                <span>Weather</span>
+
+                <strong id="detailWeather">
+                  Heavy rain
+                </strong>
+              </div>
+
+            </div>
+
+
+            <div
+              class="risk-reason"
+              id="detailReason"
+            >
+              Oil temperature and moisture indicators are outside the normal operating profile.
+            </div>
+
+
+            <div
+              class="recommendation"
+              id="detailRecommendation"
+            >
+              Inspect transformer within 12 hours and pre-position a crew before peak rainfall.
+            </div>
+
+
+            <div class="panel-buttons">
+
+              <a
+                href="predictions.html"
+                class="primary"
+              >
+                View Prediction
+              </a>
+
+              <a
+                href="maintenance.html"
+                class="secondary"
+              >
+                Maintenance
+              </a>
+
+            </div>
+
+          </div>
+
+
+          <div class="asset-list-title">
+            Assets in region
+          </div>
+
+
+          <div
+            class="asset-list"
+            id="assetList"
+          ></div>
+
+        </aside>
+
+
+      </section>
+
+
+    </main>
+
+  </div>
+
+
+  
+
+
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  function signedIn() { return request.auth != null; }
+  function regionOK(r) { return r in ['Ahmedabad East','Ahmedabad West','Gandhinagar','Vadodara']; }
+  function asset(id) { return get(/databases/$(database)/documents/assets/$(id)).data; }
+  function crewAfter(id) { return getAfter(/databases/$(database)/documents/crews/$(id)).data; }
+  function orderAfter(id) { return getAfter(/databases/$(database)/documents/maintenanceOrders/$(id)).data; }
+
+  function userDoc() {
+    return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+  }
+  function userRole() {
+    return userDoc().role;
+  }
+  function isAdmin() {
+    return signedIn() && userRole() == 'admin';
+  }
+  function isOperator() {
+    return signedIn() && (userRole() == 'admin' || userRole() == 'operator');
+  }
+  function isMaintenance() {
+    return signedIn() && (userRole() == 'admin' || userRole() == 'maintenance');
+  }
+  function isFieldSupervisor() {
+    return signedIn() && (userRole() == 'admin' || userRole() == 'field_supervisor');
+  }
+  function isViewer() {
+    return signedIn() && userRole() == 'reliability';
+  }
+
+  match /users/{uid} {
+   allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+   allow create: if signedIn() && request.auth.uid == uid
+    && request.resource.data.keys().hasOnly(['name','email','role','defaultRegion','createdAt','updatedAt'])
+    && request.resource.data.role in ['admin','operator','maintenance','field_supervisor','reliability']
+    && request.resource.data.email == request.auth.token.email
+    && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 120
+    && regionOK(request.resource.data.defaultRegion)
+    && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+   allow update: if signedIn()
+    && (
+      (request.auth.uid == uid
+       && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','defaultRegion','preferences','updatedAt'])
+       && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 120
+       && regionOK(request.resource.data.defaultRegion) && request.resource.data.updatedAt == request.time
+       && (!('preferences' in request.resource.data) || request.resource.data.preferences is map))
+      || isAdmin()
+    );
+  }
+
+  match /regions/{id} {
+   allow read: if signedIn();
+  }
+
+  match /weatherSnapshots/{id} {
+   allow read: if signedIn();
+  }
+
+  match /assets/{id} {
+   allow read: if signedIn();
+   allow create: if isAdmin()
+    && request.resource.data.assetId == id
+    && regionOK(request.resource.data.region)
+    && request.resource.data.dataSource == 'simulated';
+   allow update: if (isAdmin() || isOperator())
+    && regionOK(request.resource.data.region)
+    && request.resource.data.dataSource == 'simulated';
+  }
+
+  match /predictions/{id} {
+   allow read: if signedIn();
+   allow create, update: if (isAdmin() || isOperator())
+    && request.resource.data.assetId == id
+    && request.resource.data.dataSource == 'simulated';
+  }
+
+  match /sensorReadings/{id} {
+   allow read: if signedIn();
+   allow create: if (isAdmin() || isOperator())
+    && regionOK(request.resource.data.region)
+    && request.resource.data.dataSource == 'simulated';
+  }
+
+  match /maintenanceOrders/{id} {
+   allow read: if signedIn();
+   allow create: if isOperator() && id == 'WO-' + request.resource.data.assetId
+    && request.resource.data.keys().hasOnly(['orderId','assetId','region','priority','status','summary','assignedCrewId','dueAt','failureRisk','gridImpact','checklist','aiReason','createdAt','updatedAt','dataSource'])
+    && request.resource.data.orderId == id && request.resource.data.region == asset(request.resource.data.assetId).region
+    && request.resource.data.status == 'Pending' && request.resource.data.assignedCrewId == null
+    && request.resource.data.priority in ['Critical','Elevated','Stable']
+    && request.resource.data.summary is string && request.resource.data.summary.size() <= 2000
+    && request.resource.data.failureRisk is number && request.resource.data.failureRisk >= 0 && request.resource.data.failureRisk <= 100
+    && request.resource.data.dueAt is timestamp && request.resource.data.checklist is list && request.resource.data.checklist.size() <= 30
+    && request.resource.data.dataSource == 'simulated' && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+   allow update: if (isMaintenance() || isFieldSupervisor())
+    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','assignedCrewId','updatedAt'])
+    && request.resource.data.updatedAt == request.time
+    && ((isFieldSupervisor() && resource.data.status == 'Pending' && request.resource.data.status == 'Assigned'
+      && request.resource.data.assignedCrewId is string
+      && crewAfter(request.resource.data.assignedCrewId).assignedOrderId == id
+      && crewAfter(request.resource.data.assignedCrewId).status == 'Assigned'
+      && crewAfter(request.resource.data.assignedCrewId).region == resource.data.region)
+     || (isMaintenance() && resource.data.status == 'Assigned' && request.resource.data.status == 'In Progress'
+      && request.resource.data.assignedCrewId == resource.data.assignedCrewId
+      && crewAfter(resource.data.assignedCrewId).assignedOrderId == id && crewAfter(resource.data.assignedCrewId).status == 'Deployed')
+     || (isMaintenance() && resource.data.status in ['Assigned','In Progress'] && request.resource.data.status == 'Completed'
+      && request.resource.data.assignedCrewId == null && crewAfter(resource.data.assignedCrewId).assignedOrderId == null
+      && crewAfter(resource.data.assignedCrewId).status == 'Ready'));
+  }
+
+  match /crews/{id} {
+   allow read: if signedIn();
+   allow create: if isAdmin()
+    && request.resource.data.crewId == id
+    && regionOK(request.resource.data.region)
+    && request.resource.data.dataSource == 'simulated';
+   allow update: if (isMaintenance() || isFieldSupervisor())
+    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','assignedOrderId','availability','lastUpdated'])
+    && request.resource.data.lastUpdated == request.time
+    && ((isFieldSupervisor() && resource.data.status == 'Ready' && resource.data.assignedOrderId == null && resource.data.availability == true
+      && request.resource.data.status == 'Assigned' && request.resource.data.availability == false
+      && request.resource.data.assignedOrderId is string
+      && orderAfter(request.resource.data.assignedOrderId).assignedCrewId == id
+      && orderAfter(request.resource.data.assignedOrderId).status == 'Assigned'
+      && orderAfter(request.resource.data.assignedOrderId).region == resource.data.region)
+     || (isMaintenance() && resource.data.status == 'Assigned' && request.resource.data.status == 'Deployed' && request.resource.data.availability == false
+      && request.resource.data.assignedOrderId == resource.data.assignedOrderId
+      && orderAfter(resource.data.assignedOrderId).status == 'In Progress')
+     || (isMaintenance() && resource.data.status in ['Assigned','Deployed'] && request.resource.data.status == 'Ready'
+      && request.resource.data.availability == true && request.resource.data.assignedOrderId == null
+      && orderAfter(resource.data.assignedOrderId).status == 'Completed')
+     || (isMaintenance() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','availability','lastUpdated'])
+      && request.resource.data.status in ['Ready','Unavailable']));
+  }
+
+  match /incidents/{id} {
+   allow read: if signedIn();
+   allow create: if isOperator()
+    && request.resource.data.keys().hasOnly(['incidentId','assetId','region','severity','type','title','description','status','startedAt','resolvedAt','affectedLoadMW','customersAffected','weatherRelated','createdAt','dataSource'])
+    && request.resource.data.incidentId == id && request.resource.data.region == asset(request.resource.data.assetId).region
+    && request.resource.data.severity in ['Critical','Elevated','Stable'] && request.resource.data.status == 'Open'
+    && request.resource.data.title is string && request.resource.data.title.size() > 0 && request.resource.data.title.size() <= 200
+    && request.resource.data.description is string && request.resource.data.description.size() <= 2000
+    && request.resource.data.type is string && request.resource.data.type.size() <= 100
+    && request.resource.data.affectedLoadMW is number && request.resource.data.affectedLoadMW >= 0 && request.resource.data.affectedLoadMW <= 10000
+    && request.resource.data.customersAffected is int && request.resource.data.customersAffected >= 0 && request.resource.data.customersAffected <= 10000000
+    && request.resource.data.weatherRelated is bool && request.resource.data.resolvedAt == null
+    && request.resource.data.dataSource == 'simulated' && request.resource.data.startedAt == request.time && request.resource.data.createdAt == request.time;
+   allow update: if isOperator() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','resolvedAt'])
+    && request.resource.data.status in ['Open','Monitoring','Resolved']
+    && ((request.resource.data.status == 'Resolved' && request.resource.data.resolvedAt == request.time)
+     || (request.resource.data.status != 'Resolved' && request.resource.data.resolvedAt == null));
+  }
+ }
+}

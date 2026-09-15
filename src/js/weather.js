@@ -1,0 +1,6 @@
+import { normalize } from './risk-engine.js';
+export function weatherScore(w){return Math.round(.45*normalize(w.rainfall,0,20)+.25*normalize(w.windSpeed,10,80)+.2*normalize(w.temperature,30,48)+.1*normalize(w.humidity,60,100));}
+export async function fetchWeather(region,fallback,{provider='demo',fetcher=globalThis.fetch}={}){
+ if(provider!=='open-meteo')return {...fallback,source:'simulated'};
+ try{const {latitude,longitude}=region.weatherLocation;const url=new URL('https://api.open-meteo.com/v1/forecast');url.search=new URLSearchParams({latitude,longitude,current:'temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,weather_code'});const res=await fetcher(url,{signal:AbortSignal.timeout(7000)});if(!res.ok)throw new Error('Weather unavailable');const c=(await res.json()).current;if(!c||![c.temperature_2m,c.relative_humidity_2m,c.precipitation,c.wind_speed_10m].every(Number.isFinite))throw new Error('Incomplete weather');const w={region:region.name,timestamp:new Date(),temperature:c.temperature_2m,humidity:c.relative_humidity_2m,rainfall:c.precipitation,windSpeed:c.wind_speed_10m,condition:c.weather_code>=51?'Rain / precipitation':c.weather_code>=2?'Cloudy':'Clear',source:'open-meteo'};return {...w,weatherRiskScore:weatherScore(w)};}catch{return {...fallback,source:'simulated',fallback:true};}
+}

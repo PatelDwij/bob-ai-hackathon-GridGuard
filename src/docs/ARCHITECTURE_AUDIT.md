@@ -1,0 +1,10 @@
+# Prototype inspection (before implementation)
+13 standalone HTML pages; all CSS and JavaScript inline; no packages, backend, tests, or build tooling. Public pages: index, login, register, privacy, terms. Operational pages share sidebar links to dashboard, assets, risk-map, predictions, maintenance, crews, incidents, settings. The incidents filename had a leading space, breaking every sidebar link.
+
+Seven pages each declared their own regionData object with contradictory asset risk/sensor values and invented regional totals. Dashboard and risk-map independently configured Leaflet 1.9.4 and OpenStreetMap tiles. Their marker clicks, layer toggles, filter listeners, sidebar resizing and invalidateSize calls are preserved in extracted page renderers.
+
+Authentication only wrote gridguard-user / gridguard-registered-user to sessionStorage, and logout cleared those keys. Every operational page independently loaded the pretend profile. Region selection used gridguard-region in localStorage; settings also used gridguard-settings and gridguard-sidebar-collapsed. No cross-tab data subscription existed.
+
+Assets: search/type/risk filters, clickable rows, sensor drawer and close overlay. Predictions: risk/type filters, selectable inspector and outlook. Maintenance: status filter and inspector, but no persisted mutations. Crews: state filter, inspector, coverage and dispatch queue. Incidents: status filter, inspector, timeline and response flow. Settings: tabs, sliders, checkboxes, save/discard/reset, sidebar preferences. Login/register: password toggles and fake success transitions. Public navigation and mobile menus use ordinary links/listeners. Machine-readable links/control IDs/storage inventory: project-inspection.json.
+
+Implementation retains HTML/CSS and extracts operational rendering code. Shared adapters translate canonical Firestore records to existing renderer shapes; no page owns seed data. Firebase configuration is absent in the supplied workspace, so live project verification requires setup; local emulators provide isolated end-to-end validation.

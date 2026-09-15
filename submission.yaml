@@ -1,0 +1,64 @@
+team:
+  name: "Gridguard"
+  track: "AI"
+  lead:
+    name: "Patel Prince Ashwinkumar"
+    email: "25ce086@charusat.edu.in"
+  members:
+    - name: "Patel Dwij Riteshkumar"
+      email: "25ce077@charusat.edu.in"
+    - name: "Patel Heer Vijaykumar"
+      email: "25dit051@charusat.edu.in"
+    - name: "Patel Pal Pankajkumar"
+      email: "25ce084@charusat.edu.in"
+
+submission:
+  title: "GridGuard AI - Power Outage Prediction & Grid Equipment Failure Advisor"
+
+  problem_statement: >
+    Power utilities often react to transformer, substation, and grid equipment
+    failures only after faults begin affecting service. GridGuard AI helps grid
+    operators identify high-risk assets earlier using equipment telemetry,
+    weather exposure, asset condition, and operational history.
+
+  solution_summary: >
+    GridGuard AI is a predictive grid-maintenance and outage-risk platform that
+    evaluates grid assets using an explainable multi-factor risk scoring engine.
+    It prioritizes vulnerable equipment, recommends maintenance actions, supports
+    crew assignment, tracks incidents, and visualizes geographic grid risk.
+
+  key_features:
+    - "Explainable multi-factor equipment failure and outage risk scoring"
+    - "Interactive geographic risk map for grid assets"
+    - "Predictive maintenance recommendations and work-order management"
+    - "Role-based operational workflows and authorization"
+    - "Crew assignment, incident tracking, and simulated-data fallback"
+
+  tech_stack:
+    languages: ["HTML5", "CSS3", "JavaScript"]
+    frameworks: ["Vite", "Leaflet"]
+    ibm_technologies: ["IBM Bob"]
+    databases: ["Cloud Firestore"]
+    other: ["Firebase Authentication", "Firebase Security Rules", "OpenStreetMap", "Playwright", "GitHub Actions"]
+
+  what_we_are_most_proud_of: >
+    GridGuard AI converts operational grid signals into an end-to-end decision
+    workflow connecting asset risk detection with maintenance prioritization,
+    geographic awareness, crew coordination, incident management, and
+    role-based authorization.
+
+  known_limitations: >
+    The hackathon prototype uses simulated grid telemetry instead of a live
+    utility SCADA or IoT feed. Risk assessment currently uses a transparent
+    multi-factor scoring model rather than a production-trained machine-learning
+    model. A clearly identified simulated-data fallback is included for service
+    quota or network limitations.
+
+artifacts:
+  source_code: "src/"
+  setup_guide: "docs/setup-guide.md"
+  architecture_doc: "docs/architecture.md"
+  demo_video: "demo/demo-video-link.txt"
+  live_demo: "demo/live-demo-url.txt"
+  screenshots: "demo/screenshots/"
+  presentation: "presentation/"

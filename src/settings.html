@@ -1,0 +1,3373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b4037" />
+
+  <title>Settings — GridGuard AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --page: #eaf1ed;
+      --surface: #f7faf8;
+      --surface-soft: #eef4f1;
+      --surface-muted: #e3ece8;
+
+      --ink: #10262c;
+      --text: #42575c;
+      --muted: #748487;
+
+      --green: #00765d;
+      --green-2: #0c8c6c;
+      --green-dark: #075044;
+      --green-deep: #0b4037;
+      --green-soft: #dcece6;
+
+      --amber: #b77b1f;
+      --amber-soft: #f2e8d4;
+
+      --red: #a64f4f;
+      --red-soft: #f2dddd;
+
+      --border: #d0ded9;
+
+      --sidebar: 232px;
+      --sidebar-collapsed: 76px;
+      --topbar: 68px;
+
+      --shadow:
+        0 16px 42px rgba(21,57,47,.08);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      font-family: "DM Sans", sans-serif;
+      color: var(--ink);
+      background: var(--page);
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 1200;
+
+      width: var(--sidebar);
+
+      display: flex;
+      flex-direction: column;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          180deg,
+          #0b453b 0%,
+          #09392f 100%
+        );
+
+      border-right:
+        1px solid rgba(255,255,255,.08);
+
+      transition:
+        width .25s ease,
+        transform .25s ease;
+    }
+
+    .sidebar-top {
+      height: var(--topbar);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+      padding: 0 16px;
+
+      border-bottom:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.09);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .brand-mark svg {
+      width: 20px;
+    }
+
+    .brand-name {
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 18px;
+      font-weight: 800;
+
+      letter-spacing: -.6px;
+
+      white-space: nowrap;
+    }
+
+    .brand-name span {
+      color: #8ddbc1;
+    }
+
+    .collapse-btn {
+      width: 31px;
+      height: 31px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 8px;
+
+      color: #c8ddd6;
+
+      background:
+        rgba(255,255,255,.05);
+    }
+
+    .collapse-btn svg {
+      width: 16px;
+    }
+
+    .sidebar-content {
+      min-height: 0;
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+
+      padding:
+        16px 11px 12px;
+    }
+
+    .menu-label {
+      padding:
+        0 10px 9px;
+
+      color: #789c90;
+
+      font-size: 8px;
+      font-weight: 800;
+
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .menu {
+      display: grid;
+      gap: 4px;
+    }
+
+    .menu-item {
+      min-height: 42px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+      padding: 0 11px;
+
+      border-radius: 9px;
+
+      color: #b9d0c8;
+
+      font-size: 10.5px;
+      font-weight: 600;
+
+      transition:
+        background .18s ease,
+        color .18s ease;
+    }
+
+    .menu-item svg {
+      width: 17px;
+      height: 17px;
+
+      flex-shrink: 0;
+    }
+
+    .menu-item:hover {
+      color: white;
+
+      background:
+        rgba(255,255,255,.055);
+    }
+
+    .menu-item.active {
+      color: white;
+
+      background:
+        rgba(148,219,195,.12);
+
+      box-shadow:
+        inset 3px 0 0 #72c9aa;
+    }
+
+    .menu-badge {
+      margin-left: auto;
+
+      min-width: 21px;
+      height: 19px;
+
+      display: grid;
+      place-items: center;
+
+      padding: 0 5px;
+
+      border-radius: 999px;
+
+      color: #f1d4c7;
+
+      background:
+        rgba(183,80,70,.18);
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .sidebar-spacer {
+      flex: 1;
+    }
+
+    .system-box {
+      padding: 11px;
+
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      border:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .system-row {
+      display: flex;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      color: #8eafa3;
+
+      font-size: 8px;
+    }
+
+    .system-row + .system-row {
+      margin-top: 8px;
+    }
+
+    .system-value {
+      display: flex;
+      align-items: center;
+
+      gap: 5px;
+
+      color: #d7e7e1;
+
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: #77d2af;
+
+      box-shadow:
+        0 0 0 4px rgba(119,210,175,.08);
+    }
+
+    .sidebar.collapsed {
+      width:
+        var(--sidebar-collapsed);
+    }
+
+    .sidebar.collapsed .brand-name,
+    .sidebar.collapsed .menu-label,
+    .sidebar.collapsed .menu-item span,
+    .sidebar.collapsed .menu-badge,
+    .sidebar.collapsed .system-box {
+      display: none;
+    }
+
+    .sidebar.collapsed .sidebar-top {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      display: none;
+    }
+
+    .sidebar.collapsed .menu-item {
+      justify-content: center;
+      padding: 0;
+    }
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .main-shell {
+      min-height: 100vh;
+
+      margin-left:
+        var(--sidebar);
+
+      transition:
+        margin-left .25s ease;
+    }
+
+    .sidebar.collapsed ~ .main-shell {
+      margin-left:
+        var(--sidebar-collapsed);
+    }
+
+    /* =====================================================
+       TOPBAR
+    ===================================================== */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+
+      height: var(--topbar);
+
+      display: flex;
+      align-items: center;
+
+      background:
+        rgba(234,241,237,.94);
+
+      border-bottom:
+        1px solid var(--border);
+
+      backdrop-filter: blur(15px);
+    }
+
+    .topbar-inner {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 14px;
+
+      padding:
+        0 20px;
+    }
+
+    .top-left,
+    .top-right {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+    }
+
+    .mobile-menu {
+      display: none;
+
+      width: 36px;
+      height: 36px;
+
+      place-items: center;
+
+      border-radius: 9px;
+
+      color: var(--green-dark);
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .region-box {
+      position: relative;
+    }
+
+    .region-select {
+      appearance: none;
+
+      min-width: 158px;
+      height: 37px;
+
+      padding:
+        0 32px 0 11px;
+
+      outline: none;
+
+      border-radius: 9px;
+
+      color: #294842;
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 9.5px;
+      font-weight: 700;
+    }
+
+    .region-arrow {
+      position: absolute;
+
+      top: 50%;
+      right: 11px;
+
+      width: 8px;
+      height: 8px;
+
+      transform:
+        translateY(-65%)
+        rotate(45deg);
+
+      border-right:
+        1.5px solid #70817e;
+
+      border-bottom:
+        1.5px solid #70817e;
+
+      pointer-events: none;
+    }
+
+    .status-chip {
+      min-height: 37px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+      padding: 0 11px;
+
+      border-radius: 9px;
+
+      color: #40585b;
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 8.8px;
+    }
+
+    .profile {
+      position: relative;
+    }
+
+    .profile-btn {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 4px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      color: white;
+      background: var(--green-dark);
+
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .profile-copy strong {
+      display: block;
+
+      color: #253f3d;
+
+      font-size: 9px;
+    }
+
+    .profile-copy span {
+      color: var(--muted);
+
+      font-size: 7.5px;
+    }
+
+    .profile-menu {
+      position: absolute;
+
+      top: 46px;
+      right: 0;
+
+      width: 150px;
+
+      display: none;
+
+      padding: 6px;
+
+      border-radius: 10px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow: var(--shadow);
+    }
+
+    .profile-menu.open {
+      display: block;
+    }
+
+    .profile-menu button {
+      width: 100%;
+
+      padding: 9px;
+
+      text-align: left;
+
+      border-radius: 7px;
+
+      color: var(--text);
+
+      font-size: 9px;
+    }
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .content {
+      padding:
+        22px 20px 32px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 18px;
+
+      margin-bottom: 16px;
+    }
+
+    .eyebrow {
+      color: var(--green);
+
+      font-size: 7.5px;
+      font-weight: 800;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .page-head h1 {
+      margin-top: 4px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size:
+        clamp(25px,2.5vw,34px);
+
+      line-height: 1.08;
+
+      letter-spacing: -1.4px;
+    }
+
+    .page-head p {
+      margin-top: 6px;
+
+      max-width: 680px;
+
+      color: var(--text);
+
+      font-size: 9.7px;
+      line-height: 1.5;
+    }
+
+    .save-state {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      padding:
+        9px 11px;
+
+      border-radius: 9px;
+
+      color: #315f53;
+      background: var(--green-soft);
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       SETTINGS LAYOUT
+    ===================================================== */
+
+    .settings-layout {
+      display: grid;
+
+      grid-template-columns:
+        220px minmax(0,1fr);
+
+      gap: 12px;
+    }
+
+    /* =====================================================
+       SETTINGS NAV
+    ===================================================== */
+
+    .settings-nav {
+      align-self: start;
+
+      position: sticky;
+      top: calc(var(--topbar) + 18px);
+
+      padding: 8px;
+
+      border-radius: 12px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .settings-nav-title {
+      padding:
+        9px 9px 8px;
+
+      color: var(--muted);
+
+      font-size: 7px;
+      font-weight: 800;
+
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .settings-tab {
+      width: 100%;
+      min-height: 40px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+
+      padding:
+        0 9px;
+
+      border-radius: 8px;
+
+      color: #546b66;
+
+      font-size: 8.5px;
+      font-weight: 600;
+
+      text-align: left;
+    }
+
+    .settings-tab:hover {
+      background:
+        var(--surface-soft);
+    }
+
+    .settings-tab.active {
+      color: var(--green-dark);
+
+      background:
+        var(--green-soft);
+    }
+
+    .tab-icon {
+      width: 26px;
+      height: 26px;
+
+      display: grid;
+      place-items: center;
+
+      flex-shrink: 0;
+
+      border-radius: 7px;
+
+      background:
+        rgba(0,118,93,.07);
+
+      font-size: 9px;
+    }
+
+    .settings-note {
+      margin: 9px;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      color: #5f766f;
+      background: var(--surface-soft);
+
+      font-size: 6.8px;
+      line-height: 1.45;
+    }
+
+    /* =====================================================
+       PANELS
+    ===================================================== */
+
+    .settings-content {
+      min-width: 0;
+    }
+
+    .settings-section {
+      display: none;
+    }
+
+    .settings-section.active {
+      display: block;
+    }
+
+    .panel {
+      overflow: hidden;
+
+      border-radius: 12px;
+
+      background: var(--surface);
+
+      border:
+        1px solid var(--border);
+    }
+
+    .panel + .panel {
+      margin-top: 12px;
+    }
+
+    .panel-head {
+      min-height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding:
+        0 15px;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .panel-title strong {
+      display: block;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 11px;
+    }
+
+    .panel-title span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 7.7px;
+    }
+
+    .panel-body {
+      padding: 15px;
+    }
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 6px;
+
+      color: #415b55;
+
+      font-size: 7.2px;
+      font-weight: 700;
+    }
+
+    .field small {
+      display: block;
+
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 6.6px;
+      line-height: 1.4;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+      height: 39px;
+
+      padding:
+        0 11px;
+
+      outline: none;
+
+      border-radius: 8px;
+
+      color: #294741;
+      background: var(--surface-soft);
+
+      border:
+        1px solid var(--border);
+
+      font-size: 8px;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color:
+        #97bfb1;
+
+      box-shadow:
+        0 0 0 3px rgba(0,118,93,.06);
+    }
+
+    /* =====================================================
+       OPERATOR CARD
+    ===================================================== */
+
+    .operator-card {
+      display: grid;
+
+      grid-template-columns:
+        auto 1fr auto;
+
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 13px;
+
+      border-radius: 10px;
+
+      background: var(--surface-soft);
+    }
+
+    .operator-avatar {
+      width: 46px;
+      height: 46px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 11px;
+
+      color: white;
+      background: var(--green-dark);
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .operator-details strong {
+      display: block;
+
+      color: #2c4943;
+
+      font-size: 9.5px;
+    }
+
+    .operator-details span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 7.2px;
+    }
+
+    .account-state {
+      padding: 6px 8px;
+
+      border-radius: 999px;
+
+      color: #2e6655;
+      background: var(--green-soft);
+
+      font-size: 6.8px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       SETTING ROW
+    ===================================================== */
+
+    .setting-list {
+      display: grid;
+    }
+
+    .setting-row {
+      min-height: 66px;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,1fr) auto;
+
+      align-items: center;
+
+      gap: 18px;
+
+      padding:
+        10px 0;
+
+      border-bottom:
+        1px solid #e0e8e5;
+    }
+
+    .setting-row:first-child {
+      padding-top: 0;
+    }
+
+    .setting-row:last-child {
+      padding-bottom: 0;
+
+      border-bottom: 0;
+    }
+
+    .setting-copy strong {
+      display: block;
+
+      color: #304b45;
+
+      font-size: 8.4px;
+    }
+
+    .setting-copy span {
+      display: block;
+
+      margin-top: 3px;
+
+      max-width: 640px;
+
+      color: var(--muted);
+
+      font-size: 6.8px;
+      line-height: 1.45;
+    }
+
+    /* =====================================================
+       SWITCH
+    ===================================================== */
+
+    .switch {
+      position: relative;
+
+      width: 38px;
+      height: 22px;
+
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      position: absolute;
+
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+
+      border-radius: 999px;
+
+      background: #cfdad6;
+
+      transition:
+        background .2s ease;
+    }
+
+    .slider::after {
+      content: "";
+
+      position: absolute;
+
+      top: 3px;
+      left: 3px;
+
+      width: 16px;
+      height: 16px;
+
+      border-radius: 50%;
+
+      background: white;
+
+      box-shadow:
+        0 2px 6px rgba(30,60,51,.17);
+
+      transition:
+        transform .2s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: var(--green);
+    }
+
+    .switch input:checked + .slider::after {
+      transform:
+        translateX(16px);
+    }
+
+    /* =====================================================
+       THRESHOLD ROW
+    ===================================================== */
+
+    .threshold-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 8px;
+    }
+
+    .threshold-card {
+      padding: 11px;
+
+      border-radius: 9px;
+
+      background: var(--surface-soft);
+    }
+
+    .threshold-card.critical {
+      background: var(--red-soft);
+    }
+
+    .threshold-card.warning {
+      background: var(--amber-soft);
+    }
+
+    .threshold-card.normal {
+      background: var(--green-soft);
+    }
+
+    .threshold-card span {
+      display: block;
+
+      color: var(--muted);
+
+      font-size: 6.8px;
+    }
+
+    .threshold-card strong {
+      display: block;
+
+      margin-top: 4px;
+
+      font-family:
+        "Manrope",
+        sans-serif;
+
+      font-size: 17px;
+    }
+
+    .threshold-input {
+      width: 100%;
+
+      margin-top: 8px;
+      padding: 0;
+
+      accent-color:
+        var(--green);
+    }
+
+    /* =====================================================
+       DATA SOURCE
+    ===================================================== */
+
+    .source-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-card {
+      display: grid;
+
+      grid-template-columns:
+        33px minmax(0,1fr) auto;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 10px;
+
+      border-radius: 9px;
+
+      background: var(--surface-soft);
+    }
+
+    .source-icon {
+      width: 33px;
+      height: 33px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 8px;
+
+      color: var(--green-dark);
+      background: var(--green-soft);
+
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .source-copy strong {
+      display: block;
+
+      color: #304b45;
+
+      font-size: 8px;
+    }
+
+    .source-copy span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 6.7px;
+    }
+
+    .source-status {
+      display: flex;
+      align-items: center;
+
+      gap: 5px;
+
+      color: var(--green);
+
+      font-size: 6.8px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       SAVE BAR
+    ===================================================== */
+
+    .save-bar {
+      position: sticky;
+      bottom: 10px;
+      z-index: 200;
+
+      margin-top: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding:
+        10px 12px;
+
+      border-radius: 11px;
+
+      background:
+        rgba(247,250,248,.96);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        0 14px 34px rgba(27,62,51,.12);
+
+      backdrop-filter: blur(10px);
+    }
+
+    .save-copy strong {
+      display: block;
+
+      color: #304b45;
+
+      font-size: 8px;
+    }
+
+    .save-copy span {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 6.7px;
+    }
+
+    .save-actions {
+      display: flex;
+      gap: 7px;
+    }
+
+    .btn {
+      min-height: 34px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        0 12px;
+
+      border-radius: 8px;
+
+      font-size: 7.6px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--green);
+    }
+
+    .btn-secondary {
+      color: var(--green-dark);
+      background: var(--surface-soft);
+
+      border:
+        1px solid var(--border);
+    }
+
+    /* =====================================================
+       DANGER
+    ===================================================== */
+
+    .danger-zone {
+      border-color:
+        #dfc9c7;
+    }
+
+    .danger-zone .panel-head {
+      background:
+        #f5ecea;
+    }
+
+    .danger-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 16px;
+    }
+
+    .danger-action strong {
+      display: block;
+
+      color: #734844;
+
+      font-size: 8.4px;
+    }
+
+    .danger-action span {
+      display: block;
+
+      margin-top: 3px;
+
+      color: #8a6b67;
+
+      font-size: 6.8px;
+      line-height: 1.45;
+    }
+
+    .danger-btn {
+      min-height: 34px;
+
+      flex-shrink: 0;
+
+      padding:
+        0 11px;
+
+      border-radius: 8px;
+
+      color: #914b45;
+
+      background: var(--red-soft);
+
+      border:
+        1px solid #dfc2bf;
+
+      font-size: 7.5px;
+      font-weight: 700;
+    }
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    .toast {
+      position: fixed;
+
+      right: 20px;
+      bottom: 20px;
+
+      z-index: 2000;
+
+      transform:
+        translateY(20px);
+
+      opacity: 0;
+      pointer-events: none;
+
+      padding:
+        10px 12px;
+
+      border-radius: 9px;
+
+      color: white;
+
+      background:
+        #0a4c3f;
+
+      box-shadow:
+        0 16px 36px rgba(12,54,44,.2);
+
+      font-size: 8px;
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+
+      transform:
+        translateY(0);
+    }
+
+    /* =====================================================
+       OVERLAY
+    ===================================================== */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 1100;
+
+      display: none;
+
+      background:
+        rgba(9,31,26,.34);
+    }
+
+    .overlay.open {
+      display: block;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1000px) {
+
+      .settings-layout {
+        grid-template-columns:
+          190px minmax(0,1fr);
+      }
+
+    }
+
+    @media (max-width: 900px) {
+
+      .sidebar {
+        width:
+          var(--sidebar-collapsed);
+      }
+
+      .sidebar .brand-name,
+      .sidebar .menu-label,
+      .sidebar .menu-item span,
+      .sidebar .menu-badge,
+      .sidebar .system-box,
+      .sidebar .collapse-btn {
+        display: none;
+      }
+
+      .sidebar .sidebar-top {
+        justify-content: center;
+        padding: 0;
+      }
+
+      .sidebar .menu-item {
+        justify-content: center;
+        padding: 0;
+      }
+
+      .main-shell,
+      .sidebar.collapsed ~ .main-shell {
+        margin-left:
+          var(--sidebar-collapsed);
+      }
+
+      .settings-layout {
+        grid-template-columns:
+          1fr;
+      }
+
+      .settings-nav {
+        position: static;
+
+        display: flex;
+
+        gap: 6px;
+
+        overflow-x: auto;
+
+        padding: 7px;
+      }
+
+      .settings-nav-title,
+      .settings-note {
+        display: none;
+      }
+
+      .settings-tab {
+        min-width: max-content;
+
+        padding:
+          0 10px;
+      }
+
+    }
+
+    @media (max-width: 720px) {
+
+      .sidebar {
+        width: 232px;
+
+        transform:
+          translateX(-100%);
+      }
+
+      .sidebar.mobile-open {
+        transform:
+          translateX(0);
+      }
+
+      .sidebar .brand-name,
+      .sidebar .menu-label,
+      .sidebar .menu-item span,
+      .sidebar .menu-badge,
+      .sidebar .system-box {
+        display: initial;
+      }
+
+      .sidebar .sidebar-top {
+        justify-content:
+          space-between;
+
+        padding:
+          0 16px;
+      }
+
+      .sidebar .menu-item {
+        justify-content:
+          flex-start;
+
+        padding:
+          0 11px;
+      }
+
+      .main-shell,
+      .sidebar.collapsed ~ .main-shell {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: grid;
+      }
+
+      .status-chip {
+        display: none;
+      }
+
+      .profile-copy {
+        display: none;
+      }
+
+      .content {
+        padding:
+          18px 11px 28px;
+      }
+
+      .page-head {
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+      .form-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .field.full {
+        grid-column:
+          auto;
+      }
+
+      .threshold-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .topbar-inner {
+        padding:
+          0 10px;
+      }
+
+      .region-select {
+        min-width: 138px;
+      }
+
+      .operator-card {
+        grid-template-columns:
+          auto 1fr;
+      }
+
+      .account-state {
+        grid-column:
+          1 / -1;
+
+        width: fit-content;
+      }
+
+      .danger-action {
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+      .save-bar {
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+      .save-actions {
+        width: 100%;
+      }
+
+      .save-actions .btn {
+        flex: 1;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-top">
+
+      <a href="dashboard.html" class="brand">
+
+        <div class="brand-mark">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M13 2 5 14h6l-1 8 9-13h-6z"/>
+          </svg>
+
+        </div>
+
+        <div class="brand-name">
+          GridGuard <span>AI</span>
+        </div>
+
+      </a>
+
+
+      <button
+        class="collapse-btn"
+        id="collapseBtn"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+
+      </button>
+
+    </div>
+
+
+    <div class="sidebar-content">
+
+      <div class="menu-label">
+        Operations
+      </div>
+
+
+      <nav class="menu">
+
+        <a href="dashboard.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+
+          <span>Overview</span>
+
+        </a>
+
+
+        <a href="assets.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 3v18"/>
+            <path d="M5 7h14"/>
+          </svg>
+
+          <span>Assets</span>
+
+        </a>
+
+
+        <a href="risk-map.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="m3 6 5-2 8 2 5-2v14l-5 2-8-2-5 2z"/>
+            <path d="M8 4v14"/>
+            <path d="M16 6v14"/>
+          </svg>
+
+          <span>Risk Map</span>
+
+          <div class="menu-badge">
+            7
+          </div>
+
+        </a>
+
+
+        <a href="predictions.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M4 18V9"/>
+            <path d="M10 18V5"/>
+            <path d="M16 18v-7"/>
+            <path d="M22 18H2"/>
+          </svg>
+
+          <span>Predictions</span>
+
+        </a>
+
+
+        <a href="maintenance.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="m14.7 6.3 3-3a4 4 0 0 1-5.2 5.2l-6.7 6.7a2 2 0 1 0 2.8 2.8l6.7-6.7"/>
+          </svg>
+
+          <span>Maintenance</span>
+
+        </a>
+
+
+        <a href="crews.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <circle cx="9" cy="8" r="3"/>
+            <path d="M4 21v-2a5 5 0 0 1 10 0v2"/>
+            <circle cx="17" cy="9" r="2"/>
+          </svg>
+
+          <span>Crews</span>
+
+        </a>
+
+
+        <a href="incidents.html" class="menu-item">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 3 2.5 20h19z"/>
+            <path d="M12 9v4"/>
+            <path d="M12 17h.01"/>
+          </svg>
+
+          <span>Incidents</span>
+
+          <div class="menu-badge">
+            3
+          </div>
+
+        </a>
+
+      </nav>
+
+
+      <div class="sidebar-spacer"></div>
+
+
+      <div class="menu-label">
+        System
+      </div>
+
+
+      <nav class="menu">
+
+        <a
+          href="settings.html"
+          class="menu-item active"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <circle cx="12" cy="12" r="3"/>
+            <circle cx="12" cy="12" r="8"/>
+          </svg>
+
+          <span>Settings</span>
+
+        </a>
+
+      </nav>
+
+
+      <div class="system-box">
+
+        <div class="system-row">
+
+          <span>
+            Platform
+          </span>
+
+          <span class="system-value">
+
+            <i class="live-dot"></i>
+
+            Healthy
+
+          </span>
+
+        </div>
+
+
+        <div class="system-row">
+
+          <span>
+            Version
+          </span>
+
+          <span class="system-value">
+            2.1
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="overlay"
+    id="overlay"
+  ></div>
+
+
+  <div class="main-shell">
+
+    <header class="topbar">
+
+      <div class="topbar-inner">
+
+        <div class="top-left">
+
+          <button
+            class="mobile-menu"
+            id="mobileMenu"
+          >
+            ☰
+          </button>
+
+
+          <div class="region-box">
+
+            <select
+              class="region-select"
+              id="regionSelect"
+            >
+              <option>Ahmedabad East</option>
+              <option>Ahmedabad West</option>
+              <option>Gandhinagar</option>
+              <option>Vadodara</option>
+            </select>
+
+            <span class="region-arrow"></span>
+
+          </div>
+
+
+          <div class="status-chip">
+
+            <i class="live-dot"></i>
+
+            Configuration synced
+
+          </div>
+
+        </div>
+
+
+        <div class="top-right">
+
+          <div class="profile">
+
+            <button
+              class="profile-btn"
+              id="profileBtn"
+            >
+
+              <div
+                class="avatar"
+                id="avatar"
+              >
+                DO
+              </div>
+
+              <div class="profile-copy">
+
+                <strong id="operatorName">
+                  Demo Operator
+                </strong>
+
+                <span>
+                  Grid Operations
+                </span>
+
+              </div>
+
+            </button>
+
+
+            <div
+              class="profile-menu"
+              id="profileMenu"
+            >
+              <button id="logoutBtn">
+                Sign out
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <main class="content">
+
+      <section class="page-head">
+
+        <div>
+
+          <div class="eyebrow">
+            System Configuration
+          </div>
+
+          <h1>
+            Settings
+          </h1>
+
+          <p>
+            Configure operator preferences, prediction thresholds, data sources, alerts and regional defaults for GridGuard AI.
+          </p>
+
+        </div>
+
+
+        <div class="save-state">
+
+          <i class="live-dot"></i>
+
+          Local configuration active
+
+        </div>
+
+      </section>
+
+
+      <section class="settings-layout">
+
+        <!-- SETTINGS NAV -->
+
+        <aside class="settings-nav">
+
+          <div class="settings-nav-title">
+            Configuration
+          </div>
+
+
+          <button
+            class="settings-tab active"
+            data-section="account"
+          >
+
+            <span class="tab-icon">
+              ◉
+            </span>
+
+            Operator Account
+
+          </button>
+
+
+          <button
+            class="settings-tab"
+            data-section="operations"
+          >
+
+            <span class="tab-icon">
+              ⌁
+            </span>
+
+            Operations
+
+          </button>
+
+
+          <button
+            class="settings-tab"
+            data-section="predictions"
+          >
+
+            <span class="tab-icon">
+              ↗
+            </span>
+
+            Prediction Engine
+
+          </button>
+
+
+          <button
+            class="settings-tab"
+            data-section="notifications"
+          >
+
+            <span class="tab-icon">
+              !
+            </span>
+
+            Alerts
+
+          </button>
+
+
+          <button
+            class="settings-tab"
+            data-section="data"
+          >
+
+            <span class="tab-icon">
+              ◇
+            </span>
+
+            Data Sources
+
+          </button>
+
+
+          <div class="settings-note">
+            Account preferences sync with Firestore; device preferences use localStorage.
+          </div>
+
+        </aside>
+
+
+        <!-- SETTINGS CONTENT -->
+
+        <div class="settings-content">
+
+
+          <!-- ACCOUNT -->
+
+          <div
+            class="settings-section active"
+            id="account"
+          >
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Operator Profile
+                  </strong>
+
+                  <span>
+                    Account information shown throughout GridGuard AI
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="operator-card">
+
+                  <div
+                    class="operator-avatar"
+                    id="profileAvatar"
+                  >
+                    DO
+                  </div>
+
+                  <div class="operator-details">
+
+                    <strong id="profileName">
+                      Demo Operator
+                    </strong>
+
+                    <span id="profileRole">
+                      Grid Operations
+                    </span>
+
+                  </div>
+
+                  <div class="account-state">
+                    Active session
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="form-grid"
+                  style="margin-top:14px"
+                >
+
+                  <div class="field">
+
+                    <label>
+                      Display Name
+                    </label>
+
+                    <input
+                      type="text"
+                      class="input"
+                      id="displayName"
+                      value="Demo Operator"
+                    />
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Role
+                    </label>
+
+                    <select
+                      class="select"
+                      id="operatorRole"
+                    >
+                      <option>
+                        Grid Operations
+                      </option>
+
+                      <option>
+                        Reliability Engineer
+                      </option>
+
+                      <option>
+                        Maintenance Supervisor
+                      </option>
+
+                      <option>
+                        System Administrator
+                      </option>
+                    </select>
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Default Region
+                    </label>
+
+                    <select
+                      class="select"
+                      id="defaultRegion"
+                    >
+                      <option>Ahmedabad East</option>
+                      <option>Ahmedabad West</option>
+                      <option>Gandhinagar</option>
+                      <option>Vadodara</option>
+                    </select>
+
+                    <small>
+                      Used when no previous region selection exists.
+                    </small>
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Interface Density
+                    </label>
+
+                    <select
+                      class="select"
+                      id="interfaceDensity"
+                    >
+                      <option value="compact">
+                        Compact
+                      </option>
+
+                      <option value="comfortable">
+                        Comfortable
+                      </option>
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Session Preferences
+                  </strong>
+
+                  <span>
+                    Behaviour of the current operator workspace
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="setting-list">
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Remember selected region
+                      </strong>
+
+                      <span>
+                        Preserve the active region when moving between Overview, Assets, Risk Map and other pages.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="rememberRegion"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Open highest-risk asset by default
+                      </strong>
+
+                      <span>
+                        Automatically select the highest-priority asset when entering Predictions, Maintenance or Incident pages.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="autoSelectRisk"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Keep sidebar collapsed
+                      </strong>
+
+                      <span>
+                        Remember collapsed navigation state on desktop devices.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="rememberSidebar"
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- OPERATIONS -->
+
+          <div
+            class="settings-section"
+            id="operations"
+          >
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Operations Display
+                  </strong>
+
+                  <span>
+                    Regional monitoring and map behaviour
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="form-grid">
+
+                  <div class="field">
+
+                    <label>
+                      Map Default Zoom
+                    </label>
+
+                    <select
+                      class="select"
+                      id="mapZoom"
+                    >
+                      <option value="11">
+                        Wide region
+                      </option>
+
+                      <option value="12" selected>
+                        Standard
+                      </option>
+
+                      <option value="13">
+                        Detailed
+                      </option>
+                    </select>
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Data Refresh Interval
+                    </label>
+
+                    <select
+                      class="select"
+                      id="refreshInterval"
+                    >
+                      <option value="15">
+                        15 seconds
+                      </option>
+
+                      <option value="30" selected>
+                        30 seconds
+                      </option>
+
+                      <option value="60">
+                        1 minute
+                      </option>
+
+                      <option value="300">
+                        5 minutes
+                      </option>
+                    </select>
+
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="setting-list"
+                  style="margin-top:13px"
+                >
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Show weather exposure layer
+                      </strong>
+
+                      <span>
+                        Display rainfall and severe-weather exposure circles on supported risk maps.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="weatherLayer"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Animate map region transitions
+                      </strong>
+
+                      <span>
+                        Use smooth map movement when switching between operational regions.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="mapAnimation"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Critical marker pulse
+                      </strong>
+
+                      <span>
+                        Highlight critical transformer and substation markers with a subtle animated pulse.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="markerPulse"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- PREDICTION ENGINE -->
+
+          <div
+            class="settings-section"
+            id="predictions"
+          >
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Risk Thresholds
+                  </strong>
+
+                  <span>
+                    Prototype thresholds used for visual risk classification
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="threshold-grid">
+
+                  <div class="threshold-card critical">
+
+                    <span>
+                      Critical threshold
+                    </span>
+
+                    <strong id="criticalValue">
+                      75%
+                    </strong>
+
+                    <input
+                      type="range"
+                      min="60"
+                      max="95"
+                      value="75"
+                      class="threshold-input"
+                      id="criticalThreshold"
+                    />
+
+                  </div>
+
+
+                  <div class="threshold-card warning">
+
+                    <span>
+                      Elevated threshold
+                    </span>
+
+                    <strong id="elevatedValue">
+                      40%
+                    </strong>
+
+                    <input
+                      type="range"
+                      min="20"
+                      max="70"
+                      value="40"
+                      class="threshold-input"
+                      id="elevatedThreshold"
+                    />
+
+                  </div>
+
+
+                  <div class="threshold-card normal">
+
+                    <span>
+                      Prediction horizon
+                    </span>
+
+                    <strong id="horizonValue">
+                      72h
+                    </strong>
+
+                    <input
+                      type="range"
+                      min="24"
+                      max="120"
+                      step="24"
+                      value="72"
+                      class="threshold-input"
+                      id="predictionHorizon"
+                    />
+
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="setting-list"
+                  style="margin-top:14px"
+                >
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Include weather features
+                      </strong>
+
+                      <span>
+                        Combine rainfall, wind, humidity and storm exposure with equipment sensor signals.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="useWeather"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Include historical incidents
+                      </strong>
+
+                      <span>
+                        Use previous failures and anomaly patterns as prediction context.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="useIncidents"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Explain prediction evidence
+                      </strong>
+
+                      <span>
+                        Show contributing signals such as oil temperature, vibration and partial discharge.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="showEvidence"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- NOTIFICATIONS -->
+
+          <div
+            class="settings-section"
+            id="notifications"
+          >
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Alert Preferences
+                  </strong>
+
+                  <span>
+                    Control which operational events appear as priority alerts
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="setting-list">
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Critical equipment prediction
+                      </strong>
+
+                      <span>
+                        Alert when an asset moves above the configured critical failure threshold.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="alertCritical"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Severe weather exposure
+                      </strong>
+
+                      <span>
+                        Alert when rainfall, wind or flood exposure significantly increases asset risk.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="alertWeather"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Maintenance due window
+                      </strong>
+
+                      <span>
+                        Notify operators when a critical work order enters the next 12-hour action window.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="alertMaintenance"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Crew dispatch updates
+                      </strong>
+
+                      <span>
+                        Surface crew assignment, response and on-site state changes.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="alertCrew"
+                        checked
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+
+                  <div class="setting-row">
+
+                    <div class="setting-copy">
+
+                      <strong>
+                        Stable asset notifications
+                      </strong>
+
+                      <span>
+                        Show informational notifications when monitored assets return to normal operating range.
+                      </span>
+
+                    </div>
+
+                    <label class="switch">
+
+                      <input
+                        type="checkbox"
+                        id="alertStable"
+                      />
+
+                      <span class="slider"></span>
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- DATA -->
+
+          <div
+            class="settings-section"
+            id="data"
+          >
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Connected Data Sources
+                  </strong>
+
+                  <span>
+                    Prototype feeds used throughout the current frontend
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="source-list">
+
+                  <div class="source-card">
+
+                    <div class="source-icon">
+                      IoT
+                    </div>
+
+                    <div class="source-copy">
+
+                      <strong>
+                        Asset Sensor Telemetry
+                      </strong>
+
+                      <span>
+                        Temperature, vibration, partial discharge, oil condition and equipment load.
+                      </span>
+
+                    </div>
+
+                    <div class="source-status">
+
+                      <i class="live-dot"></i>
+
+                      Demo feed
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="source-card">
+
+                    <div class="source-icon">
+                      WX
+                    </div>
+
+                    <div class="source-copy">
+
+                      <strong>
+                        Weather Exposure
+                      </strong>
+
+                      <span>
+                        Rainfall, humidity, wind and severe-weather risk used in prediction context.
+                      </span>
+
+                    </div>
+
+                    <div class="source-status">
+
+                      <i class="live-dot"></i>
+
+                      Demo feed
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="source-card">
+
+                    <div class="source-icon">
+                      GIS
+                    </div>
+
+                    <div class="source-copy">
+
+                      <strong>
+                        OpenStreetMap
+                      </strong>
+
+                      <span>
+                        Geographic basemap used by dashboard and full Risk Map through Leaflet.
+                      </span>
+
+                    </div>
+
+                    <div class="source-status">
+
+                      <i class="live-dot"></i>
+
+                      Connected
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="source-card">
+
+                    <div class="source-icon">
+                      AI
+                    </div>
+
+                    <div class="source-copy">
+
+                      <strong>
+                        Prediction Engine
+                      </strong>
+
+                      <span>
+                        Weighted heuristic scores generated from simulated telemetry and persisted in Firestore.
+                      </span>
+
+                    </div>
+
+                    <div class="source-status">
+
+                      <i class="live-dot"></i>
+
+                      Simulation
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <article class="panel">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Backend Integration
+                  </strong>
+
+                  <span>
+                    Firebase Authentication and Cloud Firestore integration
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="form-grid">
+
+                  <div class="field full">
+
+                    <label>
+                      API Base URL
+                    </label>
+
+                    <input
+                      type="text"
+                      class="input"
+                      id="apiBaseUrl"
+                      value="http://localhost:8000/api"
+                    />
+
+                    <small>
+                      Operational demo data is stored in Cloud Firestore. Firebase configuration is isolated in js/firebase-config.js.
+                    </small>
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Request Timeout
+                    </label>
+
+                    <select
+                      class="select"
+                      id="requestTimeout"
+                    >
+                      <option value="5">
+                        5 seconds
+                      </option>
+
+                      <option value="10" selected>
+                        10 seconds
+                      </option>
+
+                      <option value="20">
+                        20 seconds
+                      </option>
+                    </select>
+
+                  </div>
+
+
+                  <div class="field">
+
+                    <label>
+                      Data Mode
+                    </label>
+
+                    <select
+                      class="select"
+                      id="dataMode"
+                    >
+                      <option value="demo">
+                        Simulated / Firestore
+                      </option>
+
+                      <option value="api">
+                        API
+                      </option>
+                    </select>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <article class="panel danger-zone">
+
+              <div class="panel-head">
+
+                <div class="panel-title">
+
+                  <strong>
+                    Demo Reset
+                  </strong>
+
+                  <span>
+                    Clear locally saved GridGuard AI preferences
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="panel-body">
+
+                <div class="danger-action">
+
+                  <div>
+
+                    <strong>
+                      Reset local configuration
+                    </strong>
+
+                    <span>
+                      Clears selected region and settings stored by this prototype. Your login page and source files are not changed.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="danger-btn"
+                    id="resetSettings"
+                  >
+                    Reset settings
+                  </button>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <!-- SAVE BAR -->
+
+          <div class="save-bar">
+
+            <div class="save-copy">
+
+              <strong>
+                GridGuard configuration
+              </strong>
+
+              <span id="saveMessage">
+                Changes are stored locally after you press Save.
+              </span>
+
+            </div>
+
+
+            <div class="save-actions">
+
+              <button
+                class="btn btn-secondary"
+                id="discardBtn"
+              >
+                Discard
+              </button>
+
+              <button
+                class="btn btn-primary"
+                id="saveBtn"
+              >
+                Save Changes
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <div
+    class="toast"
+    id="toast"
+  >
+    Settings saved successfully.
+  </div>
+
+
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env*
+!.env.example
+*service-account*.json
+*serviceAccount*.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+playwright-report/
+test-results/
+
+validation-results/
