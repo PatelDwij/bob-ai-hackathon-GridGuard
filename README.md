@@ -8,7 +8,7 @@
 |---|---|
 | **Team Name** | GridGuard |
 | **Track** | AI |
-| **Team Lead** | Patel Prince Ashwinkumar — 25ce086@charusat.edu.in |
+| **Team Lead** | Patel Prince Ashvinkumar — 25ce086@charusat.edu.in |
 | **Members** | Patel Dwij Riteshkumar, Patel Heer Vijaykumar, Patel Pal Pankajkumar |
 
 ---
